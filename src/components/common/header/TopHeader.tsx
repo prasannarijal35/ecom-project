@@ -12,7 +12,7 @@ export default function TopHeader() {
   return (
     <section id="topheader" className="bg-primary w-full">
       <div className="container">
-        <div className="w-full flex justify-between items-center py-1 ">
+        <div className="w-full flex justify-center md:justify-between items-center py-1 ">
           <div className="flex justify-center items-center text-slate-100">
             <div className="flex justify-center items-center gap-4">
               <div className="hidden min-[500px]:flex justify-start items-center gap-2">
@@ -21,11 +21,11 @@ export default function TopHeader() {
                 </div>
                 <div className="text-[14px]">example35@gmail.com</div>
               </div>
-              <div className="flex justify-start items-center gap-2">
+              <div className="w-full flex justify-start items-center gap-2 ">
                 <div className="icon">
                   <FaPhoneAlt className="text-[14px]" />
                 </div>
-                <div className="text-[14px]">(+977)9876543210</div>
+                <div className="text-[14px] ">(+977) 9876543210</div>
               </div>
             </div>
           </div>
