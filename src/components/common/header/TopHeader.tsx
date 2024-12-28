@@ -10,7 +10,7 @@ import { FaFacebookF } from "react-icons/fa6";
 
 export default function TopHeader() {
   return (
-    <section id="topheader" className="bg-primary w-full">
+    <section id="topheader" className="bg-primary w-full ">
       <div className="container">
         <div className="w-full flex justify-center md:justify-between items-center py-1 ">
           <div className="flex justify-center items-center text-slate-100">
