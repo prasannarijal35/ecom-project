@@ -32,7 +32,7 @@ export default function NavLink({ title, link, dropdowns }: Props) {
       {dropdowns && dropdowns.length > 0 && dropdownOpen && (
         <div
           id="dropdownNavbar"
-          className="z-10 md:absolute top-[100%] font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-md w-full md:w-[200px]"
+          className="z-10 md:absolute top-[100%] font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-md w-full md:w-[120px]"
         >
           <ul className="py-2 text-[16px] text-gray-700 ">
             {dropdowns.map((dropdown, index) => (
