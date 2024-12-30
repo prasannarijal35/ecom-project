@@ -23,14 +23,21 @@ export default function Navbar() {
               href="/"
               className="flex items-center space-x-3 rtl:space-x-reverse "
             >
-              <Image
-                src={logo}
-                alt="Logo"
-                height={800}
-                width={800}
-                quality={100}
-                className="h-auto w-[70px]"
-              />
+              <div className="flex items-center justify-center gap-0">
+                <div>
+                  <Image
+                    src={logo}
+                    alt="Logo"
+                    height={800}
+                    width={800}
+                    quality={100}
+                    className="h-auto w-[70px]"
+                  />
+                </div>
+                <div className="font-semibold text-primary text-xl">
+                  The <span className="text-secondary">Prasanna</span> Edit
+                </div>
+              </div>
             </Link>
             <NavProfiles toogleNav={toogleNav} />
             <NavbarMenu openNav={openNav} />
