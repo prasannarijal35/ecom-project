@@ -12,6 +12,9 @@ export default {
         primary: "#b5644c",
         secondary: "#86949c",
       },
+      boxShadow: {
+        custom: "0 0 10px 0 rgba(0,0,0,0.1)",
+      },
     },
     screens: {
       sm: "640px",

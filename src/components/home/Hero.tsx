@@ -11,7 +11,7 @@ import { SingleSliderItem } from "@/components/home";
 
 export default function Hero() {
   return (
-    <section className="w-auto h-auto md:h-[85vh]">
+    <section className="w-auto h-auto lg:h-[85vh]">
       <Swiper
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         slidesPerView={1}

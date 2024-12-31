@@ -4,19 +4,19 @@ import { FaFacebookF, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="w-full">
-      <div className="container text-white bg-secondary">
-        <div className="grid md:grid-cols-4 gap-8 p-4 mx-auto ">
+    <footer className="w-full h-full bg-gradient-to-b from-violet-900 to-primary pt-10">
+      <div className="container text-white">
+        <div className="grid md:grid-cols-4 gap-8 p-4">
           <div>
-            <h1 className="text-xl mb-2 font-semibold">About us</h1>
+            <h1 className="text-xl mb-3 font-semibold">About us</h1>
             <p className="text-sm">
-              Rijals Fashion: Offering modern, stylish clothing that empowers
-              the confident man. Discover timeless pieces and bold trends
-              designed to elevate your everyday look.
+              Rijals Fashion Offering modern, stylish clothing that empowers the
+              confident man. Discover timeless pieces and bold trends designed
+              to elevate your everyday look.
             </p>
           </div>
           <div>
-            <h1 className="text-xl mb-2 font-semibold">Quick links</h1>
+            <h1 className="text-xl mb-3 font-semibold">Quick links</h1>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/" className="hover:text-primary">
@@ -41,7 +41,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="flex flex-col">
-            <h1 className="text-xl mb-2 font-semibold">Contact Us</h1>
+            <h1 className="text-xl mb-3 font-semibold">Contact Us</h1>
             <ul className="space-y-2 text-sm">
               <li>Email: example@gmail.com</li>
               <li>Phone: (+977) 987654321</li>
@@ -49,7 +49,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="">
-            <h1 className="text-xl mb-2 font-semibold ml-3">Follow us</h1>
+            <h1 className="text-xl mb-3 font-semibold ml-3">Follow us</h1>
             <div className="flex md:flex items-center gap-3">
               <Link
                 href="https://facebook.com"
