@@ -1,6 +1,5 @@
 import { items } from "@/types/products";
 import product from "@/assets/images/images/product.jpg";
-
 export const ProductData: items[] = [
   {
     id: 1,
@@ -10,7 +9,6 @@ export const ProductData: items[] = [
       "A timeless, high-quality leather jacket with a vintage design, perfect for any season.",
     price: 199.99,
     image: product.src,
-    colors: 3,
   },
   {
     id: 2,
