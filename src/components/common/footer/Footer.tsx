@@ -82,7 +82,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-7 flex justify-center items-center gap-1 border-t border-gray-400 font-light text-[12px]">
+        <div className="mt-7 flex justify-center items-center gap-1 border-t border-gray-400 font-light text-[12px] p-3">
           <BsCCircle size={12} />
           Rijals fashion. All Rights reserved.
         </div>

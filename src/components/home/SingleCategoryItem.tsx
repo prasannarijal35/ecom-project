@@ -13,7 +13,7 @@ export default function SingleCategoryItem({
         alt={category.title}
         height={1000}
         width={1000}
-        className="h-[80px] w-[80px] object-cover object-center hover:scale-125"
+        className="h-[80px] w-[80px] object-cover object-center"
       />
       <h3 className="text-[15px] font-semibold text-primary text-center line-clamp-1">
         {category.title}

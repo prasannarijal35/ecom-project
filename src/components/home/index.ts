@@ -3,3 +3,5 @@ export { default as Hero } from "./Hero";
 export { default as SingleSliderItem } from "./SingleSliderItem";
 export { default as Category } from "./Category";
 export { default as SingleCategoryItem } from "./SingleCategoryItem";
+export { default as Product } from "./Product";
+export { default as SingleProductItem } from "./SingleProductItem";
