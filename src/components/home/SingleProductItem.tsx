@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import { CiHeart } from "react-icons/ci";
-import { IoStar } from "react-icons/io5";
+// import { IoStar } from "react-icons/io5";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { items } from "@/types/products";
 import { useState } from "react";
@@ -18,7 +18,7 @@ export default function SingleProductItem({ product }: { product: items }) {
   };
 
   return (
-    <div className="w-[220px] bg-primary/10  rounded-md shadow-custom ">
+    <div className="w-[220px] bg-primary/10  rounded-md shadow-custom mb-6 ">
       <div className="flex justify-center items-center relative w-full">
         <Image
           src={product.image}
@@ -29,8 +29,10 @@ export default function SingleProductItem({ product }: { product: items }) {
           className="rounded-t-md"
         />
         <div className="absolute top-0 flex justify-between items-center w-full p-2">
-          <CiHeart className="text-[18px] text-white bg-transparent  hover:bg-primary rounded-full hover:text-white " />
-          <div className="text-[14px] text-light text-white bg-transparent rounded-md  hover:bg-primary hover:text-white">
+          <button>
+            <CiHeart className="text-[20px] text-white bg-transparent rounded-full hover:text-primary hover:bg-white " />
+          </button>
+          <div className="text-[12px] text-light text-white bg-red-500 rounded-md p-0.5 ">
             -23%
           </div>
         </div>
@@ -57,7 +59,7 @@ export default function SingleProductItem({ product }: { product: items }) {
           <p className="line-clamp-1">{product.description}</p>
         </div>
         <div className="text-red-600 mb-1 flex justify-between items-center px-2 ">
-          <p className="text-[12px]">${product.price}</p>
+          <p className="text-[16px]">${product.price}</p>
           <div className="flex gap-2 rounded-md border-2 border-secondary/10 ">
             <button className="bg-primary/10 px-1" onClick={countIncrease}>
               +
@@ -68,13 +70,13 @@ export default function SingleProductItem({ product }: { product: items }) {
             </button>
           </div>
         </div>
-        <div className="flex text-black text-[12px] justify-center items-center mb-3">
+        {/* <div className="flex text-black text-[12px] justify-start items-center mb-3 pl-2">
           <IoStar />
           <IoStar />
           <IoStar />
           <IoStar />
           <span>(15)</span>
-        </div>
+        </div> */}
         <div className="my-2 flex gap-1 justify-between px-2">
           <button className="bg-primary text-white  font-sm px-2 py-1 rounded-md text-[12px]">
             Buy Now
