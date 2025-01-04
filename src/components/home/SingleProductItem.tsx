@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import { CiHeart } from "react-icons/ci";
-// import { IoStar } from "react-icons/io5";
+import { IoStar } from "react-icons/io5";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { items } from "@/types/products";
 import { useState } from "react";
@@ -70,13 +70,13 @@ export default function SingleProductItem({ product }: { product: items }) {
             </button>
           </div>
         </div>
-        {/* <div className="flex text-black text-[12px] justify-start items-center mb-3 pl-2">
+        <div className="flex text-black text-[12px] justify-start items-center mb-3 pl-2">
           <IoStar />
           <IoStar />
           <IoStar />
           <IoStar />
           <span>(15)</span>
-        </div> */}
+        </div>
         <div className="my-2 flex gap-1 justify-between px-2">
           <button className="bg-primary text-white  font-sm px-2 py-1 rounded-md text-[12px]">
             Buy Now
