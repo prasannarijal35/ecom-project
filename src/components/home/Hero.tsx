@@ -11,7 +11,7 @@ import { SingleSliderItem } from "@/components/home";
 
 export default function Hero() {
   return (
-    <section className="h-[90%]">
+    <section className="h-[80vh] ">
       <Swiper
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         slidesPerView={1}
@@ -19,7 +19,7 @@ export default function Hero() {
         scrollbar={{ draggable: true }}
         loop={true}
         modules={[Pagination, Autoplay]}
-        className="w-full h-[500px]"
+        className=" h-full"
       >
         {BannerData.map((banner: Banner, index: number) => (
           <SwiperSlide key={index}>

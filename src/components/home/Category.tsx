@@ -16,7 +16,7 @@ export default function Category() {
     "from-[#B20000]",
   ];
   return (
-    <section id="category" className="w-full h-full py-16">
+    <section id="category" className="w-full h-full py-20">
       <div className="container">
         <Swiper
           modules={[Autoplay]}

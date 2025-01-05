@@ -17,12 +17,9 @@ export default function Navbar() {
       className="bg-white w-full sticky top-0 z-20 shadow-md border-b border-gray-200 "
     >
       <div className="container">
-        <nav className=" w-full">
-          <div className="flex flex-wrap items-center justify-between w-full">
-            <Link
-              href="/"
-              className="flex items-center space-x-3 rtl:space-x-reverse "
-            >
+        <nav className=" w-full relative ">
+          <div className="flex flex-wrap items-center justify-between w-full ">
+            <Link href="/" className="flex items-center ">
               <div className="flex items-center justify-center gap-0">
                 <div>
                   <Image
@@ -31,10 +28,10 @@ export default function Navbar() {
                     height={800}
                     width={800}
                     quality={100}
-                    className="h-auto w-[70px]"
+                    className="h-auto w-[60px]"
                   />
                 </div>
-                <div className="font-semibold text-primary text-xl">
+                <div className="font-semibold text-primary text-[18px] pt-6">
                   The <span className="text-secondary">Prasanna</span> Edit
                 </div>
               </div>

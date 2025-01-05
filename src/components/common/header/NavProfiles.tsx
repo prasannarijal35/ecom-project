@@ -4,7 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
 export default function NavProfiles({ toogleNav }: { toogleNav: () => void }) {
   return (
-    <div className="flex md:order-2 ">
+    <div className="flex md:order-2 gap-0 md:gap-0 rtl:space-x-reverse ">
       <div className="flex justify-center items-center md:gap-2">
         <Link
           href={"/login"}
