@@ -4,3 +4,4 @@ export { default as SingleSliderItem } from "./SingleSliderItem";
 export { default as Category } from "./Category";
 export { default as SingleCategoryItem } from "./SingleCategoryItem";
 export { default as OurProduct } from "./OurProduct";
+export { default as NewArrival } from "./NewArrival";

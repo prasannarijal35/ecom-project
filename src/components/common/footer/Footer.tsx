@@ -8,7 +8,7 @@ import {
   FaTiktok,
   FaTwitter,
 } from "react-icons/fa";
-import logo from "@/assets/images/logos/logo.png";
+import logo from "@/assets/images/logos/logo2.png";
 import Image from "next/image";
 import { IoLocation } from "react-icons/io5";
 
@@ -18,7 +18,7 @@ export default function Footer() {
     <>
       <section
         id="Footer"
-        className="w-full h-full bg-gradient-to-b from-gray-50 to-white py-10 border-y-[1px] border-gray-200"
+        className="w-full h-full bg-gradient-to-b from-slate-200 to-white py-10 border-y-[1px] border-gray-200"
       >
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -32,14 +32,11 @@ export default function Footer() {
                   quality={100}
                   className="h-[60px] w-auto object-cover object-center"
                 />
-                <div className="font-semibold text-primary text-[18px] ">
-                  The <span className="text-secondary">Prasanna</span> Edit
-                </div>
               </div>
               <p className="text-gray-700 text-[14px] line-clamp-5 py-3 ">
                 Rijals Fashion Offering modern, stylish clothing that empowers
                 the confident man. Discover timeless pieces and bold trends
-                designed to elevate your everyday look.
+                designed to elevate your everyday look sex.
               </p>
               <div className="flex md:flex items-center gap-3 mt-2">
                 <Link

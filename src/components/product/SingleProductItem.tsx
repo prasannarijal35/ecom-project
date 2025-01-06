@@ -34,15 +34,13 @@ export default function SingleProductItem({ product }: { product: items }) {
             <Link href="#">
               <IoCartOutline
                 size={20}
-                className="bg-primary/25 rounded-md hover:bg-primary/80 hover:scale-105 transition-all duration-300"
-                aria-label="Add to Cart"
+                className="bg-blue-500/60 rounded-md hover:bg-blue-800 cl hover:scale-105 transition-all duration-300"
               />
             </Link>
             <Link href="#">
               <MdOutlineRemoveRedEye
                 size={20}
-                className="bg-primary/25 rounded-md hover:bg-primary/50 hover:scale-105 transition-all duration-300 "
-                aria-label="View Product"
+                className="bg-blue-500/60 rounded-md hover:bg-blue-800 hover:scale-105 transition-all duration-300 "
               />
             </Link>
           </div>

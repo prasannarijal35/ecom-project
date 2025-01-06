@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from "@/assets/images/logos/logo.png";
+import logo from "@/assets/images/logos/logo2.png";
 import Link from "next/link";
 import { useState } from "react";
 import { NavbarMenu, NavProfiles } from "@/components/common/header";
@@ -28,11 +28,8 @@ export default function Navbar() {
                     height={800}
                     width={800}
                     quality={100}
-                    className="h-auto w-[60px]"
+                    className="h-auto w-[70px]"
                   />
-                </div>
-                <div className="font-semibold text-primary text-[18px] pt-6">
-                  The <span className="text-secondary">Prasanna</span> Edit
                 </div>
               </div>
             </Link>

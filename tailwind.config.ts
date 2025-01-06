@@ -9,8 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#b5644c",
-        secondary: "#86949c",
+        // primary: "#b5644c",
+        // secondary: "#86949c",
+        primary: " #003366",
+        secondary: "#66ccff",
+
+        // primary: "#800020",
+        // secondary: "#ffb6c1",
       },
       boxShadow: {
         custom: "0 0 10px 0 rgba(0,0,0,0.1)",

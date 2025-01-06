@@ -1,4 +1,5 @@
-import { Category, Hero, OurProduct } from "@/components/home";
+import { Category, Hero, NewArrival, OurProduct } from "@/components/home";
+import { Ads } from "../common";
 
 export default function Home() {
   return (
@@ -6,6 +7,8 @@ export default function Home() {
       <Hero />
       <Category />
       <OurProduct />
+      <Ads />
+      <NewArrival />
     </>
   );
 }
