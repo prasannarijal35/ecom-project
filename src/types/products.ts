@@ -2,6 +2,7 @@ export type items = {
   id: number;
   colors: number;
   title: string;
+  slug: string;
   description: string;
   price: number;
   image: string;

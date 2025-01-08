@@ -1,83 +1,81 @@
 import { category } from "@/types/category";
-import logo from "@/assets/images/logos/logo.png";
+import tshirt from "@/assets/images/categoryimages/tshirt.png";
+import jacket from "@/assets/images/categoryimages/jacket.png";
+import sweater from "@/assets/images/categoryimages/sweater.png";
+import sneaker from "@/assets/images/categoryimages/sneakers.png";
+import hoodie from "@/assets/images/categoryimages/hoodie.png";
+import shirt from "@/assets/images/categoryimages/shirt.png";
+import blazer from "@/assets/images/categoryimages/blazer.png";
+import sweatpants from "@/assets/images/categoryimages/sweatpants.png";
+import tracksuit from "@/assets/images/categoryimages/tracksuit.png";
+import cap from "@/assets/images/categoryimages/cap.png";
 
 export const CategoryData: category[] = [
   {
-    id: 2,
+    id: 1,
     title: "T-Shirt",
     productCount: 320,
-    image: logo.src,
+    image: tshirt.src,
+  },
+  {
+    id: 2,
+    title: "Jacket",
+    productCount: 180,
+    image: jacket.src,
   },
   {
     id: 3,
-    title: "Jacket",
-    productCount: 180,
-    image: logo.src,
+    title: "Sweater",
+    productCount: 210,
+    image: sweater.src,
   },
   {
     id: 4,
-    title: "Sweater",
-    productCount: 210,
-    image: logo.src,
+    title: "Shorts",
+    productCount: 500,
+    image: sweatpants.src,
   },
   {
     id: 5,
-    title: "Shorts",
-    productCount: 500,
-    image: logo.src,
+    title: "Sneakers",
+    productCount: 375,
+    image: sneaker.src,
   },
   {
     id: 6,
-    title: "Sneakers",
-    productCount: 375,
-    image: logo.src,
+    title: "Hoodie",
+    productCount: 450,
+    image: hoodie.src,
   },
   {
     id: 7,
-    title: "Hoodie",
-    productCount: 450,
-    image: logo.src,
+    title: "Shirt",
+    productCount: 380,
+    image: shirt.src,
   },
   {
     id: 8,
-    title: "Shirt",
-    productCount: 380,
-    image: logo.src,
-  },
-  {
-    id: 9,
     title: "Blazer",
     productCount: 120,
-    image: logo.src,
+    image: blazer.src,
+  },
+
+  {
+    id: 9,
+    title: "Sweatpants",
+    productCount: 410,
+    image: sweatpants.src,
   },
   {
     id: 10,
-    title: "Chinos",
-    productCount: 290,
-    image: logo.src,
+    title: "Tracksuit",
+    productCount: 230,
+    image: tracksuit.src,
   },
   {
     id: 11,
-    title: "Sweatpants",
-    productCount: 410,
-    image: logo.src,
-  },
-  {
-    id: 12,
-    title: "Tracksuit",
-    productCount: 230,
-    image: logo.src,
-  },
-  {
-    id: 13,
     title: "Cap",
     productCount: 600,
-    image: logo.src,
-  },
-  {
-    id: 14,
-    title: "Boots",
-    productCount: 250,
-    image: logo.src,
+    image: cap.src,
   },
 ];

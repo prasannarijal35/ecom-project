@@ -1,10 +1,10 @@
 import { Banner } from "@/types/banner";
 
-import sliderThree from "@/assets/images/images/sliderThree.jpg";
-import sliderOne from "@/assets/images/images/sliderOne.jpg";
-import sliderTwo from "@/assets/images/images/sliderTwo.jpeg";
-import sliderFour from "@/assets/images/images/sliderFour.png";
-import sliderFive from "@/assets/images/images/sliderFive.jpg";
+import sliderThree from "@/assets/images/sliderimages/sliderThree.jpg";
+import sliderOne from "@/assets/images/sliderimages/sliderOne.jpg";
+import sliderTwo from "@/assets/images/sliderimages/sliderTwo.jpeg";
+import sliderFour from "@/assets/images/sliderimages/sliderFour.png";
+import sliderFive from "@/assets/images/sliderimages/sliderFive.jpg";
 export const BannerData: Banner[] = [
   {
     id: 1,

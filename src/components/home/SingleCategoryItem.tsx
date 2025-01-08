@@ -7,7 +7,7 @@ export default function SingleCategoryItem({
   category: category;
 }) {
   return (
-    <div className="w-full flex flex-col justify-center items-center bg-white hover:scale-105 trasnsition-all duration-200 rounded-lg px-2 py-5 shadow-lg ">
+    <div className="w-full flex flex-col justify-center items-center bg-gray-50  hover:scale-105 trasnsition-all duration-200 rounded-lg px-2 py-5 shadow-lg ">
       <Image
         src={category.image}
         alt={category.title}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import banner from "@/assets/images/images/sliderThree.jpg";
+import banner from "@/assets/images/sliderimages/sliderThree.jpg";
 export default function Ads() {
   return (
     <section id="ads" className="w-full">

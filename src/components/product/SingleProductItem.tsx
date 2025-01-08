@@ -14,8 +14,7 @@ export default function SingleProductItem({ product }: { product: items }) {
 
   return (
     <div className="w-full bg-white rounded-md shadow-custom mb-6 overflow-hidden group ">
-      {/* Product Image Section */}
-      <div className="relative w-full flex justify-center items-center">
+      <div className="relative w-full flex justify-center items-center p-4">
         <Image
           src={product.image}
           alt={product.title}
@@ -34,13 +33,13 @@ export default function SingleProductItem({ product }: { product: items }) {
             <Link href="#">
               <IoCartOutline
                 size={20}
-                className="bg-blue-500/60 rounded-md hover:bg-blue-800 cl hover:scale-105 transition-all duration-300"
+                className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300"
               />
             </Link>
-            <Link href="#">
+            <Link href={`/productdetails/${product.slug}`}>
               <MdOutlineRemoveRedEye
                 size={20}
-                className="bg-blue-500/60 rounded-md hover:bg-blue-800 hover:scale-105 transition-all duration-300 "
+                className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300 "
               />
             </Link>
           </div>
@@ -72,7 +71,7 @@ export default function SingleProductItem({ product }: { product: items }) {
         </div>
 
         {/* Product Title */}
-        <Link href={`/product/${product.id}`}>
+        <Link href={`/productdetails/${product.slug}`}>
           <div className="font-semibold text-[15px] line-clamp-1 py-1 pl-2 hover:text-primary transition-colors duration-300">
             <h1>{product.title}</h1>
           </div>
