@@ -6,7 +6,7 @@ import cat from "@/assets/images/others/sleepingcat.png";
 
 export default function NotFound() {
   return (
-    <section id="not-found" className="w-full py-20 min-h-[80vh] bg-gray-50">
+    <section id="not-found" className="w-full py-20 min-h-[85vh] bg-gray-50">
       <div className="container w-full relative">
         <div className="absolute bottom-[-70px] left-[-10px] z-[0]">
           <Image src={cat} alt="sleepingcat" />
@@ -40,7 +40,7 @@ export default function NotFound() {
             <p className="mt-5 text-gray-500 py-2 ">
               Contact us if you need any help.
             </p>
-            <button className="bg-black rounded-md text-white font-normal py-1 px-3 hover:bg-red-500 hover:text-white">
+            <button className="bg-black rounded-md text-white font-normal py-1 px-3 hover:bg-red-500 hover:ctext-white">
               Need help ?
             </button>
           </div>

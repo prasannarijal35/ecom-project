@@ -20,7 +20,11 @@ export default async function page({
   }
   return (
     <>
-      <BreadCrumb title="Jacket" subTitle="Products" subTitleLink="/products" />
+      <BreadCrumb
+        title={productResponse.data.title}
+        subTitle="Products"
+        subTitleLink="/products"
+      />
       <ProductDetails product={productResponse.data} />
       <SimilarProducts />
     </>
