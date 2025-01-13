@@ -1,4 +1,4 @@
-import { Login } from "@/components/login";
+import { Register } from "@/components/common/register";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Ecommerce Website",
@@ -6,9 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return (
-    <>
-      <Login />
-    </>
-  );
+  return <Register />;
 }

@@ -1,7 +1,13 @@
 import { BreadCrumb } from "@/components/common";
 import { ProductDetails, SimilarProducts } from "@/components/product";
 import { getSingleProduct } from "@/services/productServices";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Ecommerce Website",
+  description: "Generated using nextjs",
+};
 
 export default async function page({
   params,
