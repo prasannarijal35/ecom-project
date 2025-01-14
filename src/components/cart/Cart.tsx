@@ -137,7 +137,7 @@ export default function Cart() {
                       </div>
                       <button
                         onClick={() => removeItem(product.id)}
-                        className="bg-red-700/30 text-red-700 hover:text-white rounded-md hover:bg-red-700 h-[40px] w-[40px] flex justify-center items-center transition"
+                        className=" text-red-700 hover:text-white rounded-md hover:bg-red-700 h-[40px] w-[40px] flex justify-center items-center transition"
                       >
                         <TbTrash className="text-xl" />
                       </button>
