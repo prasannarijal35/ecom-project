@@ -167,6 +167,8 @@ import logo from "@/assets/images/logos/logo2.png";
 import { useLogin } from "@/hooks";
 import Link from "next/link";
 
+import avatar from "@/assets/images/others/avatar1.png";
+
 export default function Login() {
   const {
     email,
@@ -185,14 +187,26 @@ export default function Login() {
       className=" flex items-center justify-center bg-gray-100 xl:py-10 h-full w-full p-10 "
     >
       <div className="bg-white shadow-lg rounded-3xl flex xl:max-w-[900px] md:max-w-[600px] sm:max-w-[400]">
-        <div className="flex-1 hidden md:block flex-col justify-center items-center p-10 bg-gradient-to-br from-primary to-secondary text-white rounded-3xl">
-          <h1 className="text-3xl font-bold mb-4">
-            Simplify management with our dashboard.
-          </h1>
-          <p className="text-lg">
-            Simplify your e-commerce management with our user-friendly admin
-            dashboard.
-          </p>
+        <div className="flex-1 hidden md:block flex-col justify-center items-center pt-10 px-10 bg-gradient-to-br from-primary to-secondary text-white rounded-3xl">
+          <div className="h-1/3">
+            <h1 className="text-3xl font-bold mb-4">
+              Welcome back to the world of style.
+            </h1>
+            <p className="text-lg">
+              Sign in to unlock exclusive fashion collections and personalized
+              recommendations.
+            </p>
+          </div>
+          <div className="h-2/3 flex justify-end items-end">
+            <Image
+              src={avatar}
+              alt="avatar"
+              height={1000}
+              width={1000}
+              quality={100}
+              className="w-auto xl:h-96 md:h-auto md:p-0"
+            />
+          </div>
         </div>
         <div className="flex-1 px-10 py-4">
           <div className="flex justify-center items-center">
