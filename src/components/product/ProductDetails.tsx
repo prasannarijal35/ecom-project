@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { IoCartOutline, IoHeart } from "react-icons/io5";
 import { items } from "@/types/products";
+import Link from "next/link";
 
 export default function ProductDetails({ product }: { product: items }) {
   const [quantity, setQuantity] = useState<number>(1);
@@ -88,10 +89,12 @@ export default function ProductDetails({ product }: { product: items }) {
             </div>
 
             <button className="w-full bg-primary rounded-lg text-center text-white py-2 mb-3">
-              <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">
-                <IoCartOutline size={20} />
-                Add To Cart
-              </span>
+              <Link href={"/cart"}>
+                <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">
+                  <IoCartOutline size={20} />
+                  Add To Cart
+                </span>
+              </Link>
             </button>
             <button className="w-full bg-secondary rounded-lg text-center text-white py-2">
               <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">
