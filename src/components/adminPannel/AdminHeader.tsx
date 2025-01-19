@@ -17,7 +17,7 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
   };
 
   return (
-    <header className="flex items-center justify-between py-3 px-2 bg-white w-full shadow-lg">
+    <header className="sticky top-0 z-[1] flex items-center justify-between py-3 px-2 bg-white w-full shadow-lg">
       <div className="flex items-center gap-3 px-1">
         <button className="block md:hidden">
           <IoMenu
@@ -46,9 +46,9 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
         </button>
 
         {menuOpen && (
-          <div className="absolute right-0 top-11 mt-2 bg-slate-200  rounded-lg shadow-lg w-48">
-            <div className="flex flex-col justify-center items-center py-2 bg-slate-300  rounded-t-md">
-              <div className="flex justify-center items-center">
+          <div className="absolute right-0 top-11 mt-2 bg-white  rounded-md border-[1px] border-gray-200 w-60">
+            <div className="flex flex-col justify-center items-center py-2  border-b-[1px] border-gray-200 rounded-t-md">
+              <div className="flex justify-center items-center mb-2">
                 <Image
                   src={violet}
                   alt="violet"
@@ -58,20 +58,47 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
                   className="h-16 w-auto rounded-full"
                 />
               </div>
-              <h1 className="text-[12px]">Violet</h1>
-              <p className="text-[12px] font-normal">admin@lamo.com</p>
+              <h1 className="text-[14px] font-medium">Mr. Prasanna Rijal</h1>
+              <p className="text-[10px] font-normal text-gray-500">
+                admin@lamo.com
+              </p>
             </div>
-            <ul>
-              <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                <FaUser className="mr-2" /> Profile
+            <ul className="space-y-2">
+              <li className=" p-2  cursor-pointer">
+                <div className="flex gap-2">
+                  <div className="bg-gray-100 rounded-md p-2 flex justify-center items-center">
+                    <FaUser className="text-primary" />
+                  </div>
+                  <div className="flex flex-col ">
+                    <div className="font-normal text-[14px] text-gray-700">
+                      Profile
+                    </div>
+                    <span className="font-normal text-gray-500 text-[10px]">
+                      View and update your profile.
+                    </span>
+                  </div>
+                </div>
               </li>
-              <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                <FaCog className="mr-2" /> Settings
+              <li className="flex items-center p-2  cursor-pointer">
+                <div className="flex gap-2">
+                  <div className="bg-gray-100 rounded-md p-2 flex justify-center items-center">
+                    <FaCog className="text-primary" />
+                  </div>
+                  <div className="flex flex-col ">
+                    <div className="font-normal text-[14px] text-gray-700">
+                      Settings
+                    </div>
+                    <span className="font-normal text-gray-500 text-[10px]">
+                      Adjust your account settings.
+                    </span>
+                  </div>
+                </div>
               </li>
-
-              <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                <FaSignOutAlt className="mr-2" /> Logout
-              </li>
+              <div className="p-2">
+                <button className="flex items-center justify-center gap-2 p-2 w-full bg-primary text-white text-[14px] text-center rounded-md ">
+                  <FaSignOutAlt /> Logout
+                </button>
+              </div>
             </ul>
           </div>
         )}

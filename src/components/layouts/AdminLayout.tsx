@@ -9,9 +9,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     setSideBarOpen(!sideBarOpen);
   };
   return (
-    <div className="w-screeen flex">
+    <div className="w-screeen flex ">
       <AdminLeftSide sideBarOpen={sideBarOpen} toogleSideBar={toogleSideBar} />
-      <main className="flex-1 h-screen flex flex-col">
+      <main className="flex-1 h-screen flex flex-col bg-gray-50">
         <header>
           <AdminHeader
             sideBarOpen={sideBarOpen}

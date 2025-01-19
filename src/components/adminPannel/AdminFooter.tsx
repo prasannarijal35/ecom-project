@@ -1,25 +1,14 @@
-import Link from "next/link";
 import React from "react";
 
 export default function AdminFooter() {
   return (
-    <footer className="bg-white shadow-custom text-slate- py-2 ">
-      <div className="flex justify-between items-center px-6">
-        <div className="text-[12px]">
-          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-        </div>
+    <footer className="bg-white shadow-md py-2 flex flex-col justify-between items-center px-8 text-center md:flex-row gap-1 ">
+      <div className="text-sm text-gray-600">
+        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+      </div>
 
-        <div className="text-[12px] space-x-4">
-          <Link href="/privacy" className="hover:text-blue-400">
-            Privacy Policy
-          </Link>
-          <Link href="/terms" className="hover:text-blue-400">
-            Terms of Service
-          </Link>
-          <Link href="/contact" className="hover:text-blue-400">
-            Contact
-          </Link>
-        </div>
+      <div className="text-xs text-gray-500">
+        Powered by <span className="font-semibold"> Teloiv Fashion</span>
       </div>
     </footer>
   );

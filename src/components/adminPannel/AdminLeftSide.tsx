@@ -19,7 +19,7 @@ interface Props {
 export default function AdminLeftSide({ toogleSideBar, sideBarOpen }: Props) {
   return (
     <aside
-      className={`${
+      className={` fixed md:static z-[20] ${
         sideBarOpen ? "w-60" : "w-0"
       } bg-white h-screen flex flex-col md:w-60 overflow-hidden border-r-[1px] border-gray-300 transition-all duration-300`}
     >
@@ -42,30 +42,30 @@ export default function AdminLeftSide({ toogleSideBar, sideBarOpen }: Props) {
         </button>
       </div>
       <div className="mt-3">
-        <ul className="flex flex-col gap-4 text-left pl-4">
+        <ul className="flex flex-col gap-4 text-left pl-4 text-[14px]">
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaTachometerAlt className="text-xl" />
-            <Link href={"/dashboard"}>Dashboard</Link>
+            <Link href={"/admin/dashboard"}>Dashboard</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaBox className="text-xl" />
-            <Link href={"/dashboard/order"}>Orders</Link>
+            <Link href={"/admin/order"}>Orders</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaUsers className="text-xl" />
-            <Link href={"/dashboard/users"}>Users</Link>
+            <Link href={"/admin/users"}>Users</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaCogs className="text-xl" />
-            <Link href={"/dashboard/settings"}>Settings</Link>
+            <Link href={"/admin/settings"}>Settings</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaBox className="text-xl" />
-            <Link href={"/dashboard/products"}>Products</Link>
+            <Link href={"/admin/products"}>Products</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaSignOutAlt className="text-xl" />
-            <Link href={"/dashboard/logout"}>Logout</Link>
+            <Link href={"/admin/logout"}>Logout</Link>
           </li>
         </ul>
       </div>
