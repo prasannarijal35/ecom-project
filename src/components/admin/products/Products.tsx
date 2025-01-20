@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 import { ProductData } from "@/data/products";
-import Link from "next/link";
 import Image from "next/image";
+import ProductPagination from "./ProductPagination";
+import AddProducts from "./AddProducts";
+import { GoAlertFill } from "react-icons/go";
+import { CiEdit } from "react-icons/ci";
 
 export default function Products() {
   const [products, setProducts] = useState(ProductData);
@@ -47,19 +49,27 @@ export default function Products() {
     alert(`Edit product ${id}`);
   };
 
+  const [openAddProduct, setOpenAddProduct] = useState<boolean>(false);
+  const openAddModal = () => {
+    setOpenAddProduct(true);
+  };
+  const closeAddModal = () => {
+    setOpenAddProduct(false);
+  };
+
   return (
-    <section id="admin-product" className="w-full py-10">
+    <section id="admin-product" className="w-full py-6">
       <div className="w-full">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-gray-800">
+          <h1 className="text-[17px] font-medium text-gray-600">
             Admin Product Page
           </h1>
-          <Link
-            href="/admin/add-product"
-            className="bg-primary text-white py-2 px-6 rounded-md hover:bg-secondary transition-colors"
+          <button
+            className="bg-primary text-white py-1 px-4 rounded-md hover:bg-secondary transition-colors font-sm text-[14px]"
+            onClick={openAddModal}
           >
             Add Product
-          </Link>
+          </button>
         </div>
 
         <div className=" bg-white rounded-lg shadow-md overflow-auto">
@@ -112,15 +122,15 @@ export default function Products() {
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() => handleEditProduct(product.id)}
-                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                        className="text-white bg-blue-500  transition-colors p-1"
                       >
-                        <FaEdit size={20} />
+                        <CiEdit size={16} />
                       </button>
                       <button
                         onClick={() => confirmDelete(product)}
-                        className="text-red-600 hover:text-red-800 transition-colors"
+                        className="text-white bg-red-500 hover:text-red-800 transition-colors p-1"
                       >
-                        <MdDeleteOutline size={20} />
+                        <MdDeleteOutline size={16} />
                       </button>
                     </div>
                   </td>
@@ -132,22 +142,30 @@ export default function Products() {
           {openDelModal && (
             <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-[50]">
               <div className="bg-white shadow-lg max-w-sm w-full p-8 rounded-lg transform transition-all duration-300 ease-in-out scale-105">
-                <h1 className="text-xl font-semibold text-gray-800 mb-4">
-                  Are you sure you want to delete this product?
+                <div className="flex justify-center items-center">
+                  <div className="bg-red-300 rounded-full text-red-500 flex justify-center items-center text-center p-5 ">
+                    <GoAlertFill size={25} />
+                  </div>
+                </div>
+                <h1 className="text-xl font-semibold text-gray-800 mb-4 text-center mt-2">
+                  Delete Service
                 </h1>
-                <p className="text-gray-600 mb-6">{productToDel?.title}</p>
-                <div className="flex justify-end space-x-4">
+                <p className="text-gray-600 mb-6 text-center text-[14px]">
+                  Are you sure you want to delete the product &nbsp;&quot;
+                  {productToDel?.title} ?&quot;
+                </p>
+                <div className="flex justify-center items-center space-x-4">
                   <button
                     className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200"
                     onClick={closeDelModal}
                   >
-                    Cancel
+                    No, Keep it.
                   </button>
                   <button
                     className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
                     onClick={() => handleDeleteProduct(productToDel?.id)}
                   >
-                    Confirm
+                    Yes, delete it.
                   </button>
                 </div>
               </div>
@@ -155,47 +173,20 @@ export default function Products() {
           )}
         </div>
 
-        {/* Pagination Section */}
-        <div className="flex justify-between px-3 items-start">
-          <p className="mt-4">
-            {" "}
-            Showing page {currentPage} of {npage} pages
-          </p>
-          <div className="flex justify-center items-center mt-6">
-            <button
-              onClick={prePage}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-l-lg hover:bg-gray-400 transition duration-200"
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
+        {products.length > 0 && (
+          <ProductPagination
+            prePage={prePage}
+            currentPage={currentPage}
+            nextPage={nextPage}
+            npage={npage}
+            changePage={changePage}
+          />
+        )}
 
-            {/* Page Numbers */}
-            <div className="flex items-center space-x-2 mx-4">
-              {Array.from({ length: npage }, (_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => changePage(index + 1)}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentPage === index + 1
-                      ? "bg-primary text-white"
-                      : "bg-gray-200 text-gray-700"
-                  } hover:bg-gray-300 transition duration-200`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={nextPage}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-r-lg hover:bg-gray-400 transition duration-200"
-              disabled={currentPage === npage}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        <AddProducts
+          closeAddModal={closeAddModal}
+          openAddProduct={openAddProduct}
+        />
       </div>
     </section>
   );

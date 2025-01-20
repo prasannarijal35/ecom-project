@@ -19,11 +19,11 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
   return (
     <header className="sticky top-0 z-[1] flex items-center justify-between py-3 px-2 bg-white w-full shadow-lg">
       <div className="flex items-center gap-3 px-1">
-        <button className="block md:hidden">
+        <button className="block xl:hidden">
           <IoMenu
             onClick={toogleSideBar}
             size={26}
-            className={`block md:hidden ${sideBarOpen ? "hidden" : ""}`}
+            className={`block xl:hidden ${sideBarOpen ? "hidden" : ""}`}
           />
         </button>
         <button className="bg-red-300 text-red-800 text-sm py-1 px-1 rounded-md">
@@ -70,7 +70,7 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
                     <FaUser className="text-primary" />
                   </div>
                   <div className="flex flex-col ">
-                    <div className="font-normal text-[14px] text-gray-700">
+                    <div className="font-normal text-sm text-gray-700">
                       Profile
                     </div>
                     <span className="font-normal text-gray-500 text-[10px]">
@@ -85,7 +85,7 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
                     <FaCog className="text-primary" />
                   </div>
                   <div className="flex flex-col ">
-                    <div className="font-normal text-[14px] text-gray-700">
+                    <div className="font-normal text-sm text-gray-700">
                       Settings
                     </div>
                     <span className="font-normal text-gray-500 text-[10px]">
