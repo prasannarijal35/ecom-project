@@ -17,7 +17,7 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
   };
 
   return (
-    <header className="sticky top-0 z-[1] flex items-center justify-between py-3 px-2 bg-white w-full shadow-lg">
+    <header className="sticky top-0 z-[10] flex items-center justify-between py-3 px-2 bg-white w-full shadow-lg">
       <div className="flex items-center gap-3 px-1">
         <button className="block xl:hidden">
           <IoMenu
