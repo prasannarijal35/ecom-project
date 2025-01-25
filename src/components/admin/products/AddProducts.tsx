@@ -21,7 +21,7 @@ export default function AddProducts({
     validatePrice,
     validateDiscount,
     validateImage,
-  } = useAddProducts();
+  } = useAddProducts({ closeAddModal });
 
   return (
     <>
@@ -32,7 +32,6 @@ export default function AddProducts({
               Add New Product
             </h2>
             <form className="space-y-6" onSubmit={handleSubmit}>
-              {/* Product Title */}
               <div>
                 <label
                   htmlFor="productTitle"

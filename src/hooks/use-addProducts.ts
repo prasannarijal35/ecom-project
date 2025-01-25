@@ -2,7 +2,11 @@ import { NewProducts } from "@/types/addProducts";
 import { useState } from "react";
 import { addData } from "@/services/addServices";
 
-export default function useAddProducts() {
+export default function useAddProducts({
+  closeAddModal,
+}: {
+  closeAddModal: () => void;
+}) {
   const [addProductData, setAddProductData] = useState<NewProducts>({
     productTitle: "",
     discount: 0,
@@ -27,7 +31,6 @@ export default function useAddProducts() {
 
   const { productTitle, discount, price, image } = addProductData;
 
-  // Validation for product title
   const validateProductTitle = () => {
     if (!productTitle) {
       setProductTitleError("Product title is required");
@@ -40,7 +43,6 @@ export default function useAddProducts() {
     }
   };
 
-  // Validation for price
   const validatePrice = () => {
     if (price <= 0) {
       setPriceError("Price must be a positive number");
@@ -88,6 +90,7 @@ export default function useAddProducts() {
         setLoading(true);
         const response = await addData(productTitle, price, discount, image);
         console.log(response);
+        closeAddModal();
       } catch (error: any) {
         console.error(error);
       } finally {

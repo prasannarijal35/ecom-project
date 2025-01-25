@@ -143,7 +143,7 @@ export default function Products() {
             <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-[50]">
               <div className="bg-white shadow-lg max-w-sm w-full py-6 px-2 rounded-lg transform transition-all duration-300 ease-in-out scale-105">
                 <div className="flex justify-center items-center">
-                  <div className="bg-red-300 rounded-full text-red-500 flex justify-center items-center text-center ">
+                  <div className="bg-red-300 rounded-full text-red-500 flex justify-center items-center text-center p-4">
                     <GoAlertFill size={25} />
                   </div>
                 </div>
