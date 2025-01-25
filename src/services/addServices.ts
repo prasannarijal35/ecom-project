@@ -12,3 +12,17 @@ export const addData = async (
   };
   return response;
 };
+
+export const updateData = async (
+  productTitle: string,
+  price: number,
+  discount: number,
+  image: string
+) => {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const response = {
+    status: 200,
+    message: "Product edited succesfully",
+  };
+  return response;
+};

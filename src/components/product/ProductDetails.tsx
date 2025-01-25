@@ -2,10 +2,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoCartOutline, IoHeart } from "react-icons/io5";
-import { items } from "@/types/products";
+import { Product } from "@/types/product";
 import Link from "next/link";
 
-export default function ProductDetails({ product }: { product: items }) {
+export default function ProductDetails({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState<number>(1);
   const increaseQuantity = () => {
     if (quantity >= 10) return;

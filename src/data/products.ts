@@ -1,4 +1,4 @@
-import { items } from "@/types/products";
+import { Product } from "@/types/product";
 import jacket from "@/assets/images/categoryimages/jacket.png";
 import pants from "@/assets/images/productimages/chino-pants.png";
 import danimJacket from "@/assets/images/productimages/denim-jacket.png";
@@ -7,7 +7,7 @@ import backpack from "@/assets/images/productimages/backpack.png";
 import sneaker from "@/assets/images/categoryimages/sneakers.png";
 import overcoat from "@/assets/images/productimages/wool-overcoat.png";
 
-export const ProductData: items[] = [
+export const ProductData: Product[] = [
   {
     id: 1,
     colors: 3,

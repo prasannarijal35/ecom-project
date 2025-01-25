@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
 import { CiHeart } from "react-icons/ci";
-import { items } from "@/types/products";
+import { Product } from "@/types/product";
 import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
-export default function SingleProductItem({ product }: { product: items }) {
+export default function SingleProductItem({ product }: { product: Product }) {
   const discountedPrice = Math.round(
     product.price - (product.price * product.discount) / 100
   );

@@ -7,9 +7,10 @@ import ProductPagination from "./ProductPagination";
 import AddProducts from "./AddProducts";
 import { GoAlertFill } from "react-icons/go";
 import { CiEdit } from "react-icons/ci";
+import { Product } from "@/types/product";
 
 export default function Products() {
-  const [products, setProducts] = useState(ProductData);
+  const [products, setProducts] = useState<Product[]>(ProductData);
   const [openDelModal, setOpenDelModal] = useState<boolean>(false);
   const [productToDel, setProductToDel] = useState<any>(null);
 
@@ -45,16 +46,22 @@ export default function Products() {
     setOpenDelModal(false);
   };
 
-  const handleEditProduct = (id: number) => {
-    alert(`Edit product ${id}`);
-  };
-
   const [openAddProduct, setOpenAddProduct] = useState<boolean>(false);
   const openAddModal = () => {
     setOpenAddProduct(true);
   };
   const closeAddModal = () => {
+    setEditProduct(undefined);
     setOpenAddProduct(false);
+  };
+
+  const [editProduct, setEditProduct] = useState<Product | undefined>(
+    undefined
+  );
+
+  const handleEdit = (product: Product) => {
+    setEditProduct(product);
+    setOpenAddProduct(true);
   };
 
   return (
@@ -121,7 +128,7 @@ export default function Products() {
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-4">
                       <button
-                        onClick={() => handleEditProduct(product.id)}
+                        onClick={() => handleEdit(product)}
                         className="text-white bg-blue-500  transition-colors p-1"
                       >
                         <CiEdit size={16} />
@@ -183,10 +190,9 @@ export default function Products() {
           />
         )}
 
-        <AddProducts
-          closeAddModal={closeAddModal}
-          openAddProduct={openAddProduct}
-        />
+        {openAddProduct && (
+          <AddProducts closeAddModal={closeAddModal} product={editProduct} />
+        )}
       </div>
     </section>
   );

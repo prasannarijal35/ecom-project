@@ -1,16 +1,19 @@
-import { NewProducts } from "@/types/addProducts";
+import { ProductForm } from "@/types/product";
 import { useState } from "react";
-import { addData } from "@/services/addServices";
+import { addData, updateData } from "@/services/addServices";
+import { Product } from "@/types/product";
 
 export default function useAddProducts({
   closeAddModal,
+  product,
 }: {
   closeAddModal: () => void;
+  product?: Product;
 }) {
-  const [addProductData, setAddProductData] = useState<NewProducts>({
-    productTitle: "",
-    discount: 0,
-    price: 0,
+  const [addProductData, setAddProductData] = useState<ProductForm>({
+    productTitle: product ? product.title : "",
+    discount: product ? product.discount : 0,
+    price: product ? product.price : 0,
     image: "",
   });
 
@@ -88,7 +91,12 @@ export default function useAddProducts({
     ) {
       try {
         setLoading(true);
-        const response = await addData(productTitle, price, discount, image);
+        let response;
+        if (product) {
+          response = await updateData(productTitle, price, discount, image);
+        } else {
+          response = await addData(productTitle, price, discount, image);
+        }
         console.log(response);
         closeAddModal();
       } catch (error: any) {

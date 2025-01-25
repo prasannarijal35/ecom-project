@@ -1,4 +1,4 @@
-export type items = {
+export type Product = {
   id: number;
   colors: number;
   title: string;
@@ -11,4 +11,11 @@ export type items = {
     id: number;
     name: string;
   };
+};
+
+export type ProductForm = {
+  productTitle: string;
+  price: number;
+  discount: number;
+  image: string;
 };

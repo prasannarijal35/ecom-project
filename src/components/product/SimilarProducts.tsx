@@ -1,6 +1,6 @@
 import { ProductData } from "@/data/products";
 import { SectionTitle } from "../common";
-import { items } from "@/types/products";
+import { Product } from "@/types/product";
 import SingleProductItem from "./SingleProductItem";
 
 export default function SimilarProducts() {
@@ -15,7 +15,7 @@ export default function SimilarProducts() {
           text="text-start"
         />
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {ProductData.slice(0, 4).map((item: items, index: number) => (
+          {ProductData.slice(0, 4).map((item: Product, index: number) => (
             <SingleProductItem key={index} product={item} />
           ))}
         </div>
