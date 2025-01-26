@@ -16,17 +16,19 @@ export default function AddProducts({
     priceError,
     discountError,
     imageError,
+    descriptionError,
     handleChange,
     handleSubmit,
     validateProductTitle,
     validatePrice,
     validateDiscount,
     validateImage,
+    validateDescription,
   } = useAddProducts({ closeAddModal, product });
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-[50]">
-      <div className="bg-white shadow-lg max-w-md w-full p-8 rounded-lg transform transition-all duration-300 ease-in-out scale-105">
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-[50] overflow-auto">
+      <div className="bg-white shadow-lg w-full max-w-md p-8 rounded-lg transform transition-all duration-300 ease-in-out scale-105">
         <h2 className="text-xl font-semibold mb-4 text-center">
           Add New Product
         </h2>
@@ -110,6 +112,33 @@ export default function AddProducts({
                 </p>
               )}
             </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={addProductData.description}
+              onChange={handleChange}
+              onBlur={validateDescription}
+              onFocus={validateDescription}
+              placeholder="Enter product description"
+              className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
+                descriptionError ? "border-red-600" : ""
+              }`}
+              rows={4}
+            />
+            {descriptionError && (
+              <p className="text-red-500 text-xs mt-1 italic">
+                {descriptionError}
+              </p>
+            )}
           </div>
 
           <div>

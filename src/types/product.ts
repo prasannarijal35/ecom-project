@@ -18,4 +18,5 @@ export type ProductForm = {
   price: number;
   discount: number;
   image: string;
+  description: string;
 };

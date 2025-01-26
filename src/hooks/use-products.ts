@@ -15,6 +15,7 @@ export default function useAddProducts({
     discount: product ? product.discount : 0,
     price: product ? product.price : 0,
     image: "",
+    description: product ? product.description : "",
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,15 +25,18 @@ export default function useAddProducts({
   const [priceError, setPriceError] = useState<string | null>(null);
   const [discountError, setDiscountError] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
+  const [descriptionError, setDescriptionError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setAddProductData({
       ...addProductData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const { productTitle, discount, price, image } = addProductData;
+  const { productTitle, discount, price, image, description } = addProductData;
 
   const validateProductTitle = () => {
     if (!productTitle) {
@@ -69,6 +73,13 @@ export default function useAddProducts({
       setImageError(null);
     }
   };
+  const validateDescription = () => {
+    if (!description) {
+      setDescriptionError("product description needed");
+    } else {
+      setDescriptionError(null);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,6 +88,7 @@ export default function useAddProducts({
     validatePrice();
     validateDiscount();
     validateImage();
+    validateDescription();
 
     if (
       productTitle &&
@@ -114,11 +126,13 @@ export default function useAddProducts({
     priceError,
     discountError,
     imageError,
+    descriptionError,
     handleChange,
     handleSubmit,
     validateProductTitle,
     validatePrice,
     validateDiscount,
     validateImage,
+    validateDescription,
   };
 }
