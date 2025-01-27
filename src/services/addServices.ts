@@ -3,7 +3,8 @@ export const addData = async (
   productTitle: string,
   price: number,
   discount: number,
-  image: string
+  image: string,
+  description: string
 ) => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const response = {
@@ -17,7 +18,8 @@ export const updateData = async (
   productTitle: string,
   price: number,
   discount: number,
-  image: string
+  image: string,
+  description: string
 ) => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const response = {

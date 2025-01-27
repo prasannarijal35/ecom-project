@@ -19,4 +19,7 @@ export type ProductForm = {
   discount: number;
   image: string;
   description: string;
+  category: {
+    name: string;
+  };
 };

@@ -16,6 +16,7 @@ export default function useAddProducts({
     price: product ? product.price : 0,
     image: "",
     description: product ? product.description : "",
+    category: product ? { name: product.category.name } : { name: "" },
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -105,9 +106,21 @@ export default function useAddProducts({
         setLoading(true);
         let response;
         if (product) {
-          response = await updateData(productTitle, price, discount, image);
+          response = await updateData(
+            productTitle,
+            price,
+            discount,
+            image,
+            description
+          );
         } else {
-          response = await addData(productTitle, price, discount, image);
+          response = await addData(
+            productTitle,
+            price,
+            discount,
+            image,
+            description
+          );
         }
         console.log(response);
         closeAddModal();
