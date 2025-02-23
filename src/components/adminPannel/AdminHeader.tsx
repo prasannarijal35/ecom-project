@@ -32,7 +32,7 @@ export default function AdminHeader({ toogleSideBar, sideBarOpen }: Props) {
       </div>
 
       <div className="relative flex items-center">
-        <button className=" cursor-pointer" onClick={toggleMenu}>
+        <button className="cursor-pointer" onClick={toggleMenu}>
           <div className="w-full flex items-center justify-center ">
             <Image
               src={violet}

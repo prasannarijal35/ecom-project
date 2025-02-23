@@ -1,8 +1,12 @@
 import { login } from "@/services/authServices";
 import { Login } from "@/types/auth";
+import { setAccessToken, setUser } from "@/utils/localStorage";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function useLogin() {
+  const router = useRouter();
   const [formData, setFormData] = useState<Login>({
     email: "",
     password: "",
@@ -47,10 +51,46 @@ export default function useLogin() {
       try {
         setLoading(true);
         const response = await login(email, password);
-        console.log(response);
+
+        const token = response.data.token;
+        await setAccessToken(token);
+
+        const user = response.data.user;
+        await setUser(user);
+
+        toast.success("Login successful");
+        router.push("/");
       } catch (error: any) {
-        // Handle errors
-        console.log(error);
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status < 500
+        ) {
+          console.log(error.response.data);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+
+            errors.map((error: any) => {
+              const key = Object.keys(error)[0];
+              const value = error[key];
+
+              if (key === "email") {
+                setEmailError(value);
+              }
+
+              if (key === "password") {
+                setPasswordError(value);
+              }
+            });
+          }
+          toast.error(error.response.data.message, {
+            id: "toast",
+          });
+          return;
+        }
+        toast.error("Something went wrong", {
+          id: "toast",
+        });
       } finally {
         setLoading(false);
       }

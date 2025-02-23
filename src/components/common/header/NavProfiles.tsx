@@ -2,9 +2,11 @@
 import { IoMenu } from "react-icons/io5";
 import { FaUserLarge } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CartModal from "../../cart/CartModal";
 import Link from "next/link";
+import { getUser } from "@/utils/localStorage";
+import { User } from "@/types/user";
 export default function NavProfiles({ toogleNav }: { toogleNav: () => void }) {
   const [modal, setModal] = useState<boolean>(false);
 
@@ -15,16 +17,37 @@ export default function NavProfiles({ toogleNav }: { toogleNav: () => void }) {
     setModal(false);
   };
 
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = await getUser();
+      setUser(storedUser);
+    };
+    fetchUser();
+  }, []);
+
   return (
     <div className="flex md:order-2 gap-0 md:gap-0 rtl:space-x-reverse ">
       <div className="flex justify-center items-center md:gap-2">
-        <Link
-          href={"/login"}
-          className="flex gap-1 justify-center items-center font-medium hover:text-primary hover:bg-primary/10 p-2 rounded-md"
-        >
-          <FaUserLarge />
-          <span className="hidden md:block">Login</span>
-        </Link>
+        {user ? (
+          <Link
+            href={"/login"}
+            className="flex gap-1 justify-center items-center font-medium hover:text-primary hover:bg-primary/10 p-2 rounded-md"
+          >
+            <FaUserLarge />
+            <span className="hidden md:block">{user.fullName}</span>
+          </Link>
+        ) : (
+          <Link
+            href={"/login"}
+            className="flex gap-1 justify-center items-center font-medium hover:text-primary hover:bg-primary/10 p-2 rounded-md"
+          >
+            <FaUserLarge />
+            <span className="hidden md:block">Login</span>
+          </Link>
+        )}
+
         <button
           className="flex gap-1 justify-center items-center font-medium hover:text-primary hover:bg-primary/10 p-2 rounded-md"
           onClick={openModal}

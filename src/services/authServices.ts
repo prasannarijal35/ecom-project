@@ -1,11 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import myAxios from "./apiServices";
+
 export const login = async (email: string, password: string) => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  const response = {
-    status: 200,
-    message: "Login successful",
-  };
-  return response;
+  const response = await myAxios.post(
+    "/auth/login",
+    {
+      email,
+      password,
+    },
+    {
+      isAuthRoute: false,
+    }
+  );
+
+  return response.data;
 };
 
 export const register = async (
@@ -14,10 +21,18 @@ export const register = async (
   password: string,
   confirmPassword: string
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  const response = {
-    status: 200,
-    message: "Register Successful",
-  };
-  return response;
+  const response = await myAxios.post(
+    "/auth/register",
+    {
+      fullName,
+      email,
+      password,
+      confirmPassword,
+    },
+    {
+      isAuthRoute: false,
+    }
+  );
+
+  return response.data;
 };

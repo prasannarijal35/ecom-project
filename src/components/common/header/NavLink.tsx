@@ -23,7 +23,7 @@ export default function NavLink({ title, link, dropdowns }: Props) {
         href={link}
         className={`flex justify-center items-center py-2 px-3 w-full ${
           dropdownOpen ? "text-primary" : "text-gray-900"
-        } } text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-01 text-[16px] `}
+        } } text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-1 text-[16px] `}
       >
         <span>{title}</span>
         {dropdowns && dropdowns.length > 0 && <IoChevronDownOutline />}

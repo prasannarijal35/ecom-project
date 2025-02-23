@@ -1,14 +1,18 @@
 import { register } from "@/services/authServices";
 import { Register } from "@/types/auth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function useRegister() {
+  const router = useRouter();
   const [formData, setFormData] = useState<Register>({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const [loading, setLoading] = useState<boolean>(false);
   const [fullNameError, setFullNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -16,25 +20,28 @@ export default function useRegister() {
   const [confirmPasswordError, setConfirmPasswordError] = useState<
     string | null
   >(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
   const { fullName, email, password, confirmPassword } = formData;
 
   const validateFullName = () => {
     if (!fullName) {
-      setFullNameError("full name is required");
+      setFullNameError("Full name is required");
     } else {
       if (fullName.length < 3) {
-        setFullNameError("Name must be greater than 3 letters");
+        setFullNameError("Full name must be at least 3 characters");
       } else {
         setFullNameError(null);
       }
     }
   };
+
   const validateEmail = () => {
     if (!email) {
       setEmailError("Email is required");
@@ -42,12 +49,13 @@ export default function useRegister() {
       setEmailError(null);
     }
   };
+
   const validatePassword = () => {
     if (!password) {
       setPasswordError("Password is required");
     } else {
       if (password.length < 8) {
-        setPasswordError("Password must be at least 8 characters");
+        setPasswordError("Password must be at least 6 characters");
       } else {
         setPasswordError(null);
       }
@@ -68,6 +76,7 @@ export default function useRegister() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     validateFullName();
     validateEmail();
     validatePassword();
@@ -85,20 +94,53 @@ export default function useRegister() {
     ) {
       try {
         setLoading(true);
-        const response = await register(
-          fullName,
-          email,
-          password,
-          confirmPassword
-        );
-        console.log(response);
+        await register(fullName, email, password, confirmPassword);
+        toast.success("Account created successfully");
+        router.push("/login");
       } catch (error: any) {
-        console.error(error);
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status < 500
+        ) {
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+
+            errors.map((error: any) => {
+              const key = Object.keys(error)[0];
+              const value = error[key];
+
+              if (key === "fullName") {
+                setFullNameError(value);
+              }
+
+              if (key === "email") {
+                setEmailError(value);
+              }
+
+              if (key === "password") {
+                setPasswordError(value);
+              }
+
+              if (key === "confirmPassword") {
+                setConfirmPasswordError(value);
+              }
+            });
+          }
+          toast.error(error.response.data.message, {
+            id: "toast",
+          });
+          return;
+        }
+        toast.error("Something went wrong", {
+          id: "toast",
+        });
       } finally {
         setLoading(false);
       }
     }
   };
+
   return {
     fullName,
     email,
