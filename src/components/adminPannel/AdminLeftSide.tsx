@@ -64,6 +64,10 @@ export default function AdminLeftSide({ toogleSideBar, sideBarOpen }: Props) {
             <Link href={"/admin/products"}>Products</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
+            <FaBox className="text-sm" />
+            <Link href={"/admin/categories"}>Category</Link>
+          </li>
+          <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
             <FaSignOutAlt className="text-sm" />
             <Link href={"/admin/logout"}>Logout</Link>
           </li>
