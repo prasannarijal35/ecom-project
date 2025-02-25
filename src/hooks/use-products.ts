@@ -1,6 +1,6 @@
 import { ProductForm } from "@/types/product";
 import { useState } from "react";
-import { addData, updateData } from "@/services/addServices";
+import { addData, updateData } from "@/services/admin/addServices";
 import { Product } from "@/types/product";
 
 export default function useAddProducts({

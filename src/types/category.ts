@@ -4,8 +4,3 @@ export type Category = {
   productCount: number;
   image: string;
 };
-
-export type CategoryForm = {
-  title: string;
-  image: string;
-};
