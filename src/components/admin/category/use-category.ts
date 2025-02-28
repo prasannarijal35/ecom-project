@@ -2,7 +2,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Category, CategoryForm } from "@/types/admin/category";
 import { toast } from "react-hot-toast";
-import defaultImage from "@/assets/images/others/image.jpg";
+import defaultImage from "@/assets/images/logos/logo2.png";
 import {
   addCategory,
   updateCategory,

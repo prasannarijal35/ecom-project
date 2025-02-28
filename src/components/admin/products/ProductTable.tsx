@@ -1,27 +1,22 @@
 "use client";
-import { Category } from "@/types/admin/category";
-// import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-// import { Pagination } from "@/components/common";
-import { Modal } from "@/components/modal";
-import { getAllCategories } from "@/services/admin/addCategoryServices";
-import {
-  AddCategoryModal,
-  SingleCategoryItem,
-} from "@/components/admin/category";
-import { DeleteModal } from "@/components/modal";
+import { Product } from "@/types/admin/product";
+import { useEffect, useState } from "react";
+import { DeleteModal, Modal } from "@/components/modal";
 import { toast } from "react-hot-toast";
+import { getAllProducts } from "@/services/admin/addProductServices";
 import myAxios from "@/services/apiServices";
+import SingleProductItem from "./SingleProductItem";
+import AddProductModal from "./AddProducts";
 
-const CategoryTableComponent = () => {
+const ProductTable = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-  const [singleItem, setSingleItem] = useState<Category | null>(null);
+  const [singleItem, setSingleItem] = useState<Product | null>(null);
 
   const openModal = () => setShowModal(true);
 
-  const setValueInModal = (category: Category) => {
-    setSingleItem(category);
+  const setValueInModal = (product: Product) => {
+    setSingleItem(product);
     openModal();
   };
 
@@ -30,8 +25,8 @@ const CategoryTableComponent = () => {
     setShowModal(false);
   };
 
-  const openDeleteModal = (category: Category) => {
-    setSingleItem(category);
+  const openDeleteModal = (product: Product) => {
+    setSingleItem(product);
     setShowDeleteModal(true);
   };
 
@@ -40,34 +35,24 @@ const CategoryTableComponent = () => {
     setShowDeleteModal(false);
   };
 
-  const [items, setItems] = useState<Category[]>([]);
-  // const currentpage = useSearchParams().get("page");
-  // const [currentPage, setCurrentPage] = useState<number>(
-  //   currentpage ? parseInt(currentpage!) : 1
-  // );
-  // const size = useSearchParams().get("size");
-  // const itemsPerPage = size ? parseInt(size) : 10;
-  // const [totalPages, setTotalPages] = useState<number>(0);
-  // const searchValue = useSearchParams().get("search");
+  const [items, setItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [refresh, setRefresh] = useState<boolean>(false);
   const refreshPage = () => {
     setRefresh(!refresh);
   };
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   useEffect(() => {
-    const getCategories = async () => {
+    const getProducts = async () => {
       try {
-        const itemData = await getAllCategories({
-          // page: currentPage,
-          // size: itemsPerPage,
-          // search: searchValue ? searchValue : "",
+        const itemData = await getAllProducts({
+          //page:currentPage,
+          //sixe: itemsPerPage;
+          //search: searchValue? searchValue: "",
         });
         setItems(itemData.data);
-        // setTotalPages(itemData.data.totalPages);
-        // setCurrentPage(itemData.data.currentPage);
       } catch (error: any) {
         setErrorMessage(
           error.response?.data?.message || "Something went wrong"
@@ -76,29 +61,24 @@ const CategoryTableComponent = () => {
         setLoading(false);
       }
     };
-    getCategories();
+    getProducts();
   }, [refresh]);
-  // }, [searchValue, refresh, currentPage, itemsPerPage]);
 
-  // const handlePageChange = async (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
-  const handleDeleteCategory = async () => {
+  const handleDeleteProduct = async () => {
     if (!singleItem) return;
 
     toast.promise(
-      myAxios.delete(`/categories/${singleItem.id}`).then(() => {
-        setItems((prevCategories) =>
-          prevCategories.filter((categories) => categories.id !== singleItem.id)
+      myAxios.delete(`/products/${singleItem.id}`).then(() => {
+        setItems((prevProducts) =>
+          prevProducts.filter((product) => product.id !== singleItem.id)
         );
         refreshPage();
         closeDeleteModal();
       }),
       {
-        loading: "Deleting category...",
-        success: "Category deleted successfully!",
-        error: "Failed to delete category.",
+        loading: "Deleting product...",
+        success: "Product deleted successfully!",
+        error: "Failed to delete product.",
       },
       {
         id: "toast",
@@ -109,15 +89,14 @@ const CategoryTableComponent = () => {
   return (
     <>
       <div className="flex gap-3 flex-wrap justify-end my-4">
-        <div>
-          <button
-            className="py-2 px-3 bg-primary text-[14px] font-normal text-white rounded-md"
-            onClick={openModal}
-          >
-            Add Category
-          </button>
-        </div>
+        <button
+          className="py-2 px-3 bg-primary text-[14px] font-normal text-white rounded-md"
+          onClick={openModal}
+        >
+          Add Product
+        </button>
       </div>
+
       <div className="relative overflow-x-auto my-5">
         <table className="w-full text-sm text-left rtl:text-right ">
           <thead className="text-xs uppercase border-b border-solid border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-normal">
@@ -148,7 +127,7 @@ const CategoryTableComponent = () => {
                   className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300"
                 >
                   <div className="min-h-[100px] flex justify-center items-center bg-gray-200 dark:bg-gray-700 rounded-lg italic text-sm font-medium">
-                    <div className="w-4 h-4 border-2 border-y-primary border-x-secondary  rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-y-primary border-x-secondary rounded-full animate-spin" />
                   </div>
                 </td>
               </tr>
@@ -168,7 +147,7 @@ const CategoryTableComponent = () => {
               </tr>
             ) : items.length > 0 ? (
               items.map((item, index) => (
-                <SingleCategoryItem
+                <SingleProductItem
                   item={item}
                   index={index}
                   key={item.id}
@@ -192,39 +171,26 @@ const CategoryTableComponent = () => {
           </tbody>
         </table>
       </div>
-      {/* {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          handlePageChange={handlePageChange}
-        />
-      )} */}
 
       <Modal isOpen={showModal}>
-        <AddCategoryModal
+        <AddProductModal
           closeModal={closeModal}
+          product={singleItem ?? undefined}
           refresh={refreshPage}
-          category={singleItem ?? undefined}
         />
       </Modal>
 
       <DeleteModal
         isOpen={showDeleteModal}
         closeModal={closeDeleteModal}
-        title="Delete category"
-        description={`Are you sure you want to delete the category "${
+        title="Delete product"
+        description={`Are you sure you want to delete the product "${
           singleItem?.name || ""
         }"?`}
-        initiateDelete={handleDeleteCategory}
+        initiateDelete={handleDeleteProduct}
       />
     </>
   );
 };
 
-export default function CategoryTable() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CategoryTableComponent />
-    </Suspense>
-  );
-}
+export default ProductTable;

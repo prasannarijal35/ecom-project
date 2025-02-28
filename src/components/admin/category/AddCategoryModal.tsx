@@ -48,7 +48,7 @@ export default function AddCategoryModal({
               <IoClose />
             </button>
           </div>
-          {/* Modal body */}
+
           <div className="p-4 md:p-5 w-full">
             <form className="" onSubmit={onSubmit}>
               <div className="flex flex-col gap-3">

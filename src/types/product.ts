@@ -12,14 +12,3 @@ export type Product = {
     name: string;
   };
 };
-
-export type ProductForm = {
-  productTitle: string;
-  price: number;
-  discount: number;
-  image: string;
-  description: string;
-  category: {
-    name: string;
-  };
-};

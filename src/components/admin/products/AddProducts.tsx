@@ -1,187 +1,313 @@
 "use client";
-import { useAddProducts } from "@/hooks";
-import { Product } from "@/types/product";
+import { useProduct } from "@/components/admin/products";
+import { getAllCategories } from "@/services/admin/addCategoryServices";
+import { Category } from "@/types/admin/category";
+import { Product } from "@/types/admin/product";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { BiPencil } from "react-icons/bi";
+import { IoClose } from "react-icons/io5";
 
-export default function AddProducts({
-  closeAddModal,
-  product,
-}: {
-  closeAddModal: () => void;
+type Props = {
+  closeModal: () => void;
   product?: Product;
-}) {
+  refresh?: () => void;
+};
+
+export default function AddProductModal({
+  closeModal,
+  product,
+  refresh,
+}: Props) {
   const {
-    addProductData,
-    loading,
-    productTitleError,
-    priceError,
-    discountError,
-    imageError,
+    image,
+    name,
+    description,
+    price,
+    stockCount,
+    discountPercent,
+    categoryId,
+    nameError,
     descriptionError,
+    priceError,
+    stockCountError,
+    discountPercentError,
+    categoryIdError,
+    imageError,
+    isLoading,
     handleChange,
-    handleSubmit,
-    validateProductTitle,
-    validatePrice,
-    validateDiscount,
-    validateImage,
+    validateName,
     validateDescription,
-  } = useAddProducts({ closeAddModal, product });
+    validatePrice,
+    validateStockCount,
+    validateDiscountPercent,
+    validateCategoryId,
+    onSubmit,
+    chooseImage,
+    handleImageChangeClick,
+    fileInputRef,
+  } = useProduct({ closeModal, product, refresh });
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        setLoading(true);
+        const itemData = await getAllCategories({
+          // page: currentPage,
+          // size: itemsPerPage,
+          // search: searchValue ? searchValue : "",
+        });
+        setCategories(itemData.data);
+        console.log(itemData.data);
+        // setTotalPages(itemData.data.totalPages);
+        // setCurrentPage(itemData.data.currentPage);
+      } catch (error: any) {
+        toast.error(
+          error.response?.data?.message || "Categories could not be fetched"
+        );
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getCategories();
+  }, [refresh]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-[50] overflow-auto">
-      <div className="bg-white shadow-lg w-full max-w-md p-8 rounded-lg transform transition-all duration-300 ease-in-out scale-105">
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          Add New Product
-        </h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="productTitle"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Title
-            </label>
-            <input
-              type="text"
-              id="productTitle"
-              name="productTitle"
-              value={addProductData.productTitle}
-              onChange={handleChange}
-              onBlur={validateProductTitle}
-              onFocus={validateProductTitle}
-              placeholder="Enter product title"
-              className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                productTitleError ? "border-red-600" : ""
-              }`}
-            />
-            {productTitleError && (
-              <p className="text-red-500 text-xs mt-1 italic">
-                {productTitleError}
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label
-                htmlFor="price"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Price (Rs)
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={addProductData.price}
-                onChange={handleChange}
-                onBlur={validatePrice}
-                onFocus={validatePrice}
-                placeholder="Enter price"
-                className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  priceError ? "border-red-600" : ""
-                }`}
-              />
-              {priceError && (
-                <p className="text-red-500 text-xs mt-1 italic">{priceError}</p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="discount"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Discount (%)
-              </label>
-              <input
-                type="number"
-                id="discount"
-                name="discount"
-                value={addProductData.discount}
-                onChange={handleChange}
-                onBlur={validateDiscount}
-                onFocus={validateDiscount}
-                placeholder="Enter discount"
-                className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  discountError ? "border-red-600" : ""
-                }`}
-              />
-              {discountError && (
-                <p className="text-red-500 text-xs mt-1 italic">
-                  {discountError}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={addProductData.description}
-              onChange={handleChange}
-              onBlur={validateDescription}
-              onFocus={validateDescription}
-              placeholder="Enter product description"
-              className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                descriptionError ? "border-red-600" : ""
-              }`}
-              rows={4}
-            />
-            {descriptionError && (
-              <p className="text-red-500 text-xs mt-1 italic">
-                {descriptionError}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              onBlur={validateImage}
-              onFocus={validateImage}
-              className={`mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                imageError ? "border-red-600" : ""
-              }`}
-            />
-            {imageError && (
-              <p className="text-red-500 text-xs mt-1 italic">{imageError}</p>
-            )}
-          </div>
-
-          <div className="flex justify-between mt-8">
+    <>
+      <div className="relative z-[50]   p-2 w-full max-w-5xl mt-100">
+        <div className="bg-white dark:bg-dark rounded-lg shadow-3xl">
+          <div className="flex items-center justify-between p-4 md:px-5 md:py-4 border-b rounded-t dark:border-gray-600">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {product ? "Update" : "Add"} Product
+            </h3>
             <button
+              title="close"
               type="button"
-              onClick={closeAddModal}
-              className="px-6 py-3 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+              className="text-gray-500 dark:text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="default-modal"
+              onClick={closeModal}
             >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-3 bg-primary text-white rounded-md hover:bg-secondary transition-colors duration-300"
-            >
-              {loading ? "Loading..." : "Confirm"}
+              <IoClose />
             </button>
           </div>
-        </form>
+          {/* Modal body */}
+          <div className="p-4 md:p-5 w-full">
+            <form className="" onSubmit={onSubmit}>
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-center items-center w-auto ">
+                  <div className="relative">
+                    <Image
+                      src={image}
+                      height={200}
+                      width={200}
+                      className="object-cover h-[175px] w-[175px] rounded-full border-[1px] border-solid border-[#eee] dark:border-gray-500"
+                      alt="User Image"
+                    />
+                    <div
+                      className="absolute bottom-0 right-7 bg-primary/70 text-white rounded-full p-2 cursor-pointer hover:bg-primary"
+                      onClick={handleImageChangeClick}
+                    >
+                      <BiPencil />
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={chooseImage}
+                  />
+
+                  {imageError && (
+                    <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                      {imageError}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-x-2">
+                  <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={name}
+                    onChange={handleChange}
+                    className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                      nameError
+                        ? "border-danger"
+                        : "border-[#eee] dark:border-gray-500"
+                    }
+                      `}
+                    placeholder="Enter product name..."
+                    required
+                    onBlur={validateName}
+                  />
+                  {nameError && (
+                    <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                      {nameError}
+                    </span>
+                  )}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-x-2">
+                    <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                      Price *
+                    </label>
+                    <input
+                      type="number"
+                      name="price"
+                      id="price"
+                      value={price}
+                      onChange={handleChange}
+                      className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                        priceError
+                          ? "border-danger"
+                          : "border-[#eee] dark:border-gray-500"
+                      }
+                      `}
+                      placeholder="Enter product price..."
+                      required
+                      onBlur={validatePrice}
+                    />
+                    {priceError && (
+                      <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                        {priceError}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-x-2">
+                    <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                      Stock Count *
+                    </label>
+                    <input
+                      type="number"
+                      name="stockCount"
+                      id="stockCount"
+                      value={stockCount}
+                      onChange={handleChange}
+                      className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                        stockCountError
+                          ? "border-danger"
+                          : "border-[#eee] dark:border-gray-500"
+                      }
+                      `}
+                      placeholder="Enter product stock count..."
+                      required
+                      onBlur={validateStockCount}
+                    />
+                    {stockCountError && (
+                      <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                        {stockCountError}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-x-2">
+                    <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                      Discount Percent
+                    </label>
+                    <input
+                      type="number"
+                      name="discountPercent"
+                      id="discountPercent"
+                      value={discountPercent}
+                      onChange={handleChange}
+                      className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                        discountPercentError
+                          ? "border-danger"
+                          : "border-[#eee] dark:border-gray-500"
+                      }
+                      `}
+                      placeholder="Enter product discount percent..."
+                      onBlur={validateDiscountPercent}
+                    />
+                    {discountPercentError && (
+                      <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                        {discountPercentError}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-x-2">
+                    <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                      Category *
+                    </label>
+                    <select
+                      name="categoryId"
+                      id="categoryId"
+                      value={categoryId}
+                      onChange={handleChange}
+                      className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                        categoryIdError
+                          ? "border-danger"
+                          : "border-[#eee] dark:border-gray-500"
+                      }
+                      `}
+                      required
+                      onBlur={validateCategoryId}
+                    >
+                      <option value="">Select category</option>
+                      {!loading &&
+                        categories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))}
+                    </select>
+                    {categoryIdError && (
+                      <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                        {categoryIdError}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-x-2">
+                  <label className="text-sm text-hardgray dark:text-lightgray font-normal">
+                    Description *
+                  </label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    value={description}
+                    onChange={handleChange}
+                    rows={5}
+                    className={`w-full py-[10px] px-5 items-center rounded-lg bg-form-background dark:bg-dark-form-background focus:bg-form-background-focus focus:dark:bg-dark-form-background-focus text-form-color dark:text-dark-form-color focus:outline-none border-[1px] ${
+                      descriptionError
+                        ? "border-danger"
+                        : "border-[#eee] dark:border-gray-500"
+                    }
+                      `}
+                    placeholder="Enter product description..."
+                    required
+                    onBlur={validateDescription}
+                  />
+                  {descriptionError && (
+                    <span className="text-danger text-[12px] font-normal tracking-[0] mt-1 italic leading-[1] w-full">
+                      {descriptionError}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="py-1.5 px-3 bg-primary text-[14px] font-normal text-white rounded-md my-4"
+                >
+                  {isLoading ? "Saving..." : "Save"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
