@@ -1,4 +1,3 @@
-import { category } from "@/types/category";
 import tshirt from "@/assets/images/categoryimages/tshirt.png";
 import jacket from "@/assets/images/categoryimages/jacket.png";
 import sweater from "@/assets/images/categoryimages/sweater.png";
@@ -9,8 +8,9 @@ import blazer from "@/assets/images/categoryimages/blazer.png";
 import sweatpants from "@/assets/images/categoryimages/sweatpants.png";
 import tracksuit from "@/assets/images/categoryimages/tracksuit.png";
 import cap from "@/assets/images/categoryimages/cap.png";
+import { Category } from "@/types/category";
 
-export const CategoryData: category[] = [
+export const CategoryData: Category[] = [
   {
     id: 1,
     title: "T-Shirt",

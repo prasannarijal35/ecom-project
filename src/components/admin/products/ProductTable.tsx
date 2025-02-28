@@ -1,14 +1,19 @@
 "use client";
 import { Product } from "@/types/admin/product";
-import { useEffect, useState } from "react";
-import { DeleteModal, Modal } from "@/components/modal";
+// import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+// import { Pagination } from "@/components/common";
+import { Modal } from "@/components/modal";
+import {
+  AddProductModal,
+  SingleProductItem,
+} from "@/components/admin/products";
+import { DeleteModal } from "@/components/modal";
 import { toast } from "react-hot-toast";
 import { getAllProducts } from "@/services/admin/addProductServices";
 import myAxios from "@/services/apiServices";
-import SingleProductItem from "./SingleProductItem";
-import AddProductModal from "./AddProducts";
 
-const ProductTable = () => {
+const ProductTableComponent = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [singleItem, setSingleItem] = useState<Product | null>(null);
@@ -36,23 +41,34 @@ const ProductTable = () => {
   };
 
   const [items, setItems] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  // const currentpage = useSearchParams().get("page");
+  // const [currentPage, setCurrentPage] = useState<number>(
+  //   currentpage ? parseInt(currentpage!) : 1
+  // );
+  // const size = useSearchParams().get("size");
+  // const itemsPerPage = size ? parseInt(size) : 10;
+  // const [totalPages, setTotalPages] = useState<number>(0);
+  // const searchValue = useSearchParams().get("search");
   const [refresh, setRefresh] = useState<boolean>(false);
   const refreshPage = () => {
     setRefresh(!refresh);
   };
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   useEffect(() => {
     const getProducts = async () => {
       try {
         const itemData = await getAllProducts({
-          //page:currentPage,
-          //sixe: itemsPerPage;
-          //search: searchValue? searchValue: "",
+          // page: currentPage,
+          // size: itemsPerPage,
+          // search: searchValue ? searchValue : "",
         });
         setItems(itemData.data);
+        console.log(itemData.data);
+        // setTotalPages(itemData.data.totalPages);
+        // setCurrentPage(itemData.data.currentPage);
       } catch (error: any) {
         setErrorMessage(
           error.response?.data?.message || "Something went wrong"
@@ -63,14 +79,19 @@ const ProductTable = () => {
     };
     getProducts();
   }, [refresh]);
+  // }, [searchValue, refresh, currentPage, itemsPerPage]);
+
+  // const handlePageChange = async (pageNumber: number) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   const handleDeleteProduct = async () => {
     if (!singleItem) return;
 
     toast.promise(
       myAxios.delete(`/products/${singleItem.id}`).then(() => {
-        setItems((prevProducts) =>
-          prevProducts.filter((product) => product.id !== singleItem.id)
+        setItems((prevCategories) =>
+          prevCategories.filter((categories) => categories.id !== singleItem.id)
         );
         refreshPage();
         closeDeleteModal();
@@ -96,7 +117,6 @@ const ProductTable = () => {
           Add Product
         </button>
       </div>
-
       <div className="relative overflow-x-auto my-5">
         <table className="w-full text-sm text-left rtl:text-right ">
           <thead className="text-xs uppercase border-b border-solid border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-normal">
@@ -108,12 +128,18 @@ const ProductTable = () => {
                 Image
               </th>
               <th scope="col" className="pr-6 py-3 whitespace-nowrap">
-                Title
+                Name
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="pr-6 py-3 whitespace-nowrap">
+                Price
+              </th>
+              <th scope="col" className="pr-6 py-3 whitespace-nowrap">
+                Category
+              </th>
+              <th scope="col" className="pr-6 py-3 whitespace-nowrap">
                 Created At
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="pr-6 py-3 whitespace-nowrap">
                 Action
               </th>
             </tr>
@@ -123,11 +149,11 @@ const ProductTable = () => {
               <tr>
                 <td
                   scope="row"
-                  colSpan={5}
+                  colSpan={7}
                   className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300"
                 >
                   <div className="min-h-[100px] flex justify-center items-center bg-gray-200 dark:bg-gray-700 rounded-lg italic text-sm font-medium">
-                    <div className="w-4 h-4 border-2 border-y-primary border-x-secondary rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-y-primary border-x-secondary  rounded-full animate-spin" />
                   </div>
                 </td>
               </tr>
@@ -135,7 +161,7 @@ const ProductTable = () => {
               <tr>
                 <td
                   scope="row"
-                  colSpan={5}
+                  colSpan={7}
                   className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300"
                 >
                   <div className="min-h-[100px] flex justify-center items-center bg-danger/30 rounded-lg italic text-sm">
@@ -159,7 +185,7 @@ const ProductTable = () => {
               <tr>
                 <td
                   scope="row"
-                  colSpan={5}
+                  colSpan={7}
                   className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300"
                 >
                   <div className="min-h-[100px] flex justify-center items-center bg-gray-200 dark:bg-gray-700 rounded-lg italic text-sm font-medium">
@@ -171,12 +197,19 @@ const ProductTable = () => {
           </tbody>
         </table>
       </div>
+      {/* {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
+      )} */}
 
       <Modal isOpen={showModal}>
         <AddProductModal
           closeModal={closeModal}
-          product={singleItem ?? undefined}
           refresh={refreshPage}
+          product={singleItem ?? undefined}
         />
       </Modal>
 
@@ -184,7 +217,7 @@ const ProductTable = () => {
         isOpen={showDeleteModal}
         closeModal={closeDeleteModal}
         title="Delete product"
-        description={`Are you sure you want to delete the product "${
+        description={`Are you sure you want to delete this product "${
           singleItem?.name || ""
         }"?`}
         initiateDelete={handleDeleteProduct}
@@ -193,4 +226,10 @@ const ProductTable = () => {
   );
 };
 
-export default ProductTable;
+export default function ProductTable() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductTableComponent />
+    </Suspense>
+  );
+}

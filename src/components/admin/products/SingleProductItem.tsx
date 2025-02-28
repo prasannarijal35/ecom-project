@@ -51,7 +51,7 @@ const SingleProductItem = ({
               src={item.url ? item.url : logo}
               className={`h-[75px] w-[75px] rounded-sm ${
                 item.url ? "object-cover cursor-pointer" : "object-cover"
-              } rounded-md`}
+              } rounded-md"`}
             />
           </div>
         </th>
@@ -61,7 +61,19 @@ const SingleProductItem = ({
         >
           <p className="w-full max-w-[300px]">{item.name}</p>
         </td>
-        <td className="px-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300">
+        <td className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300">
+          Price: {item.price} <br />
+          {item.discountPercent > 0 && (
+            <>
+              Discount: {item.discountPercent}% <br />
+            </>
+          )}
+          Stock Count: {item.stockCount}
+        </td>
+        <td className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300">
+          {item.category.name}
+        </td>
+        <td className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300">
           {new Date(item.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
@@ -71,7 +83,7 @@ const SingleProductItem = ({
             hour12: true,
           })}
         </td>
-        <td className="px-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300 ">
+        <td className="pr-6 py-4 font-normal whitespace-nowrap text-gray-700 dark:text-gray-300 ">
           <div className="flex gap-2 items-center">
             <button
               title="Edit"
@@ -89,7 +101,7 @@ const SingleProductItem = ({
               type="button"
               title="Delete"
               onClick={() => openDeleteModal(item)}
-              className="bg-red-400 dark:bg-red-500 p-2 text-white rounded-sm"
+              className="bg-red-600 dark:bg-red-500 p-2 text-white rounded-sm"
             >
               <BiTrash />
             </button>

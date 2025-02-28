@@ -10,6 +10,7 @@ import {
   FaCogs,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { AiFillProduct } from "react-icons/ai";
 
 interface Props {
   toogleSideBar: () => void;
@@ -19,7 +20,7 @@ interface Props {
 export default function AdminLeftSide({ toogleSideBar, sideBarOpen }: Props) {
   return (
     <aside
-      className={`fixed xl:static z-[20] ${
+      className={`fixed xl:static z-[50] ${
         sideBarOpen ? "w-60" : "w-0"
       } bg-white h-screen flex flex-col xl:w-60 overflow-hidden border-r-[1px] border-gray-300 transition-all duration-300`}
     >
@@ -60,7 +61,7 @@ export default function AdminLeftSide({ toogleSideBar, sideBarOpen }: Props) {
             <Link href={"/admin/settings"}>Settings</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
-            <FaBox className="text-sm" />
+            <AiFillProduct className="text-sm" />
             <Link href={"/admin/products"}>Products</Link>
           </li>
           <li className="flex items-center gap-2 p-2 hover:bg-gray-300 rounded-md transition-colors">
