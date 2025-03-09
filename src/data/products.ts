@@ -16,8 +16,8 @@ export const ProductData: Product[] = [
     description:
       "A timeless, high-quality leather jacket with a vintage design, perfect for any season. Crafted from premium leather, it offers durability and a sleek, stylish appearance that improves with age. Its classic cut and attention to detail ensure a flattering fit, while the versatile design makes it suitable for both casual and formal outfits. Whether layered over a sweater or paired with a shirt, this jacket remains a wardrobe staple, adding a touch of sophistication and rugged charm to any look",
     price: 200,
-    image: jacket.src,
-    discount: 10,
+    imagePath: jacket.src,
+    discountPercent: 10,
     category: {
       id: 1,
       name: "clothes",
@@ -31,8 +31,8 @@ export const ProductData: Product[] = [
     description:
       "Comfortable and stylish chinos made for the modern man. Perfect for both casual and formal occasions.",
     price: 60,
-    image: pants.src,
-    discount: 10,
+    imagePath: pants.src,
+    discountPercent: 10,
     category: {
       id: 2,
       name: "clothes", // Category: Clothes
@@ -46,8 +46,8 @@ export const ProductData: Product[] = [
     description:
       "A versatile, rugged denim jacket that pairs well with any outfit. The perfect outerwear for any season.",
     price: 110,
-    image: danimJacket.src,
-    discount: 5,
+    imagePath: danimJacket.src,
+    discountPercent: 5,
     category: {
       id: 3,
       name: "clothes", // Category: Clothes
@@ -61,8 +61,8 @@ export const ProductData: Product[] = [
     description:
       "This slim-fit blazer combines style and comfort, perfect for both office and evening wear.",
     price: 200,
-    image: casualBlazer.src,
-    discount: 7,
+    imagePath: casualBlazer.src,
+    discountPercent: 7,
     category: {
       id: 4,
       name: "clothes", // Category: Clothes
@@ -76,8 +76,8 @@ export const ProductData: Product[] = [
     description:
       "Spacious, durable, and stylish, this canvas backpack is perfect for your next adventure.",
     price: 60,
-    image: backpack.src,
-    discount: 14,
+    imagePath: backpack.src,
+    discountPercent: 14,
     category: {
       id: 5,
       name: "accessories", // Category: Accessories
@@ -91,8 +91,8 @@ export const ProductData: Product[] = [
     description:
       "A timeless, high-quality leather jacket with a vintage design, perfect for any season.",
     price: 200,
-    image: jacket.src,
-    discount: 15,
+    imagePath: jacket.src,
+    discountPercent: 15,
     category: {
       id: 6,
       name: "clothes", // Category: Clothes
@@ -106,8 +106,8 @@ export const ProductData: Product[] = [
     description:
       "Stylish and comfortable sneakers, designed for everyday wear and perfect for casual outings.",
     price: 80,
-    image: sneaker.src,
-    discount: 4,
+    imagePath: sneaker.src,
+    discountPercent: 4,
     category: {
       id: 7,
       name: "accessories", // Category: Accessories
@@ -121,8 +121,8 @@ export const ProductData: Product[] = [
     description:
       "A premium wool overcoat that offers warmth and style during colder months, perfect for layering over your best outfits.",
     price: 170,
-    image: overcoat.src,
-    discount: 9,
+    imagePath: overcoat.src,
+    discountPercent: 9,
     category: {
       id: 8,
       name: "clothes", // Category: Clothes

@@ -1,12 +1,11 @@
 export type Product = {
   id: number;
-  colors: number;
   title: string;
   slug: string;
   description: string;
   price: number;
-  image: string;
-  discount: number;
+  imagePath: string;
+  discountPercent: number;
   category: {
     id: number;
     name: string;

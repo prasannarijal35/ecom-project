@@ -1,4 +1,4 @@
-import { ProductForm } from "@/types/product";
+import { ProductForm } from "@/types/admin/product";
 import myAxios from "../apiServices";
 
 interface Params {

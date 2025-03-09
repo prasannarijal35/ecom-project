@@ -17,7 +17,8 @@ export default function ProductDetails({ product }: { product: Product }) {
   };
 
   const TotalPrice =
-    (product.price - (product.price * product.discount) / 100) * quantity;
+    (product.price - (product.price * product.discountPercent) / 100) *
+    quantity;
   return (
     <section id="product-details" className="w-full py-10">
       <div className="container">
@@ -25,7 +26,7 @@ export default function ProductDetails({ product }: { product: Product }) {
           <div className="w-full">
             <div className="w-full overflow-hidden bg-gray-100 rounded-md p-5 ">
               <Image
-                src={product.image}
+                src={product.imagePath}
                 alt={product.title}
                 height={1000}
                 width={1000}
@@ -47,9 +48,10 @@ export default function ProductDetails({ product }: { product: Product }) {
             <div className="flex items-end gap-2 border-b-[1px] border-gray-300 ">
               <h5 className="text-xl font-bold text-primary">
                 Rs.
-                {product.price - (product.price * product.discount) / 100}
+                {product.price -
+                  (product.price * product.discountPercent) / 100}
               </h5>
-              {product.discount > 0 && (
+              {product.discountPercent > 0 && (
                 <span className="text-md text-gray-500 line-through ml-2">
                   Rs.{product.price}
                 </span>

@@ -41,7 +41,8 @@ export default function Cart() {
   const calculateMainTotal = () => {
     return cartItem.reduce((total, item) => {
       const itemPrice =
-        (item.price - (item.price * item.discount) / 100) * item.quantity;
+        (item.price - (item.price * item.discountPercent) / 100) *
+        item.quantity;
       return total + itemPrice;
     }, 0);
   };
@@ -70,7 +71,8 @@ export default function Cart() {
             <div className="space-y-6">
               {cartItem.map((product) => {
                 const productTotal =
-                  (product.price - (product.price * product.discount) / 100) *
+                  (product.price -
+                    (product.price * product.discountPercent) / 100) *
                   product.quantity;
                 return (
                   <div
@@ -80,7 +82,7 @@ export default function Cart() {
                     <div className="w-full flex items-center gap-2 md:w-auto ">
                       <div className="p-2 bg-gray-50 rounded-md">
                         <Image
-                          src={product.image}
+                          src={product.imagePath}
                           alt={product.title}
                           height={100}
                           width={100}
@@ -98,9 +100,9 @@ export default function Cart() {
                           Rs.
                           {(
                             product.price -
-                            (product.price * product.discount) / 100
+                            (product.price * product.discountPercent) / 100
                           ).toFixed(2)}
-                          {product.discount > 0 && (
+                          {product.discountPercent > 0 && (
                             <span className="text-sm text-gray-500 line-through ml-2">
                               Rs.{product.price}
                             </span>

@@ -35,7 +35,7 @@ export default function CartModal({ closeModal }: { closeModal: () => void }) {
               <div className="flex justify-start items-start gap-2">
                 <div className="p-4 rounded-md bg-gray-100">
                   <Image
-                    src={product.image}
+                    src={product.imagePath}
                     alt={product.title}
                     width={800}
                     height={800}
@@ -53,9 +53,10 @@ export default function CartModal({ closeModal }: { closeModal: () => void }) {
                   <div className="text-primary font-sm flex items-center gap-2 mt-2">
                     <h5 className="text-[12px] font-medium text-primary">
                       Rs.
-                      {product.price - (product.price * product.discount) / 100}
+                      {product.price -
+                        (product.price * product.discountPercent) / 100}
                     </h5>
-                    {product.discount > 0 && (
+                    {product.discountPercent > 0 && (
                       <span className="text-[12px] text-gray-500 line-through ml-2">
                         Rs.{product.price}
                       </span>
