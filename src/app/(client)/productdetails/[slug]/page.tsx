@@ -27,7 +27,7 @@ export default async function page({
   return (
     <>
       <BreadCrumb
-        title={productResponse.data.title}
+        title={productResponse.data.name}
         subTitle="Products"
         subTitleLink="/products"
       />

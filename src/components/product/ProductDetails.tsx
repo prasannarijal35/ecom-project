@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
 import { IoCartOutline, IoHeart } from "react-icons/io5";
 import { Product } from "@/types/product";
 import Link from "next/link";
+import logo from "@/assets/images/logos/logo2.png";
+import { useState } from "react";
 
 export default function ProductDetails({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState<number>(1);
@@ -26,8 +27,8 @@ export default function ProductDetails({ product }: { product: Product }) {
           <div className="w-full">
             <div className="w-full overflow-hidden bg-gray-100 rounded-md p-5 ">
               <Image
-                src={product.imagePath}
-                alt={product.title}
+                src={product.url ? product.url : logo}
+                alt={product.name}
                 height={1000}
                 width={1000}
                 quality={100}
@@ -40,11 +41,9 @@ export default function ProductDetails({ product }: { product: Product }) {
               {product.category.name}
             </h2>
             <h1 className="text-3xl font-medium text-gray-800">
-              {product.title}
+              {product.name}
             </h1>
-            <h2 className="text-[12px] font-normal text-gray-600 mb-1">
-              Availavle in <span>{product.colors} colors</span>
-            </h2>
+
             <div className="flex items-end gap-2 border-b-[1px] border-gray-300 ">
               <h5 className="text-xl font-bold text-primary">
                 Rs.

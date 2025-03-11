@@ -82,8 +82,8 @@ export default function Cart() {
                     <div className="w-full flex items-center gap-2 md:w-auto ">
                       <div className="p-2 bg-gray-50 rounded-md">
                         <Image
-                          src={product.imagePath}
-                          alt={product.title}
+                          src={product.url}
+                          alt={product.name}
                           height={100}
                           width={100}
                           className="h-20 w-20 object-cover"
@@ -91,7 +91,7 @@ export default function Cart() {
                       </div>
                       <div>
                         <h4 className="font-medium text-[18px]">
-                          {product.title}
+                          {product.name}
                         </h4>
                         <p className="italic text-[14px] text-sm text-gray-600">
                           {product.category.name}

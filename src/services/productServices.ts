@@ -1,19 +1,51 @@
-import { ProductData } from "@/data/products";
-export const getSingleProduct = async (slug: string) => {
-  const data = ProductData.find((product) => product.slug === slug);
-  let response;
-  if (!data) {
-    response = {
-      status: 404,
-      message: "Product not found",
-      error: [{ slug: "Product not found" }],
-    };
-    throw response;
-  }
-  response = {
-    status: 200,
-    message: "product found",
-    data,
+import myAxios from "./apiServices";
+
+interface Params {
+  page?: number;
+  size?: number;
+  search?: string;
+  slug?: string;
+}
+
+export const getAllProducts = async ({
+  page = 1,
+  size = 10,
+  search = "",
+}: Params) => {
+  const params: Params = {
+    page: page,
+    size: size,
   };
-  return response;
+  if (search) params.search = search;
+  const response = await myAxios.get("/products/user/all", { params });
+  return response.data;
+};
+
+export const getDiscountedProducts = async () => {
+  const response = await myAxios.get("/products/discounted/all");
+  return response.data;
+};
+
+export const getProductsByCategory = async ({
+  page = 1,
+  size = 10,
+  search = "",
+  slug,
+}: Params) => {
+  const params: Params = {
+    page: page,
+    size: size,
+  };
+  if (search) params.search = search;
+  const response = await myAxios.get(`/products/category/${slug}`, {
+    params,
+  });
+  return response.data;
+};
+
+export const getSingleProduct = async (slug: string) => {
+  const response = await myAxios.get(`/products/${slug}/user`, {
+    isAuthRoute: false,
+  });
+  return response.data;
 };

@@ -38,7 +38,14 @@ export default function Category() {
     getCategories();
   }, []);
   if (loading) {
-    return <p className="text-center text-gray-400"> loading categories</p>;
+    return (
+      <div className="text-center text-gray-400 text-xl py-20">
+        Loading Categories
+        <div className="min-h-[100px] flex justify-center items-center bg-gray-200 dark:bg-gray-700 rounded-lg italic text-sm font-medium">
+          <div className="w-4 h-4 border-2 border-y-primary border-x-secondary  rounded-full animate-spin" />
+        </div>
+      </div>
+    );
   }
   if (errorMessage) {
     return <p className="text-center text-red-400">{errorMessage}</p>;

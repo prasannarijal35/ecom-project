@@ -23,6 +23,7 @@ const myAxios: AxiosInstance = axios.create({
  */
 myAxios.interceptors.request.use(
   async (config) => {
+    if (typeof window === "undefined") return config;
     const accessToken = await getAccessToken();
 
     if (config.isAuthRoute && accessToken) {

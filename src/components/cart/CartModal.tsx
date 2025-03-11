@@ -35,8 +35,8 @@ export default function CartModal({ closeModal }: { closeModal: () => void }) {
               <div className="flex justify-start items-start gap-2">
                 <div className="p-4 rounded-md bg-gray-100">
                   <Image
-                    src={product.imagePath}
-                    alt={product.title}
+                    src={product.url}
+                    alt={product.name}
                     width={800}
                     height={800}
                     className="object-cover w-20 h-20"
@@ -45,7 +45,7 @@ export default function CartModal({ closeModal }: { closeModal: () => void }) {
 
                 <div className="flex flex-col">
                   <h3 className="text-[14px] font-medium text-gray-800 mt-2">
-                    {product.title}
+                    {product.name}
                   </h3>
                   <p className="text-[14px] text-gray-600 italic mb-1">
                     {product.category.name}

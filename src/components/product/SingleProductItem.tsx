@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import logo from "@/assets/images/logos/logo2.png";
 import { CiHeart } from "react-icons/ci";
 import { Product } from "@/types/product";
 import Link from "next/link";
@@ -13,11 +14,11 @@ export default function SingleProductItem({ product }: { product: Product }) {
   const originalPrice = Math.round(product.price);
 
   return (
-    <div className="w-full bg-white rounded-md shadow-custom mb-6 overflow-hidden group ">
+    <div className="w-full bg-white rounded-md shadow-custom mb-6 overflow-hidden group">
       <div className="relative w-full flex justify-center items-center p-4">
         <Image
-          src={product.imagePath}
-          alt={product.title}
+          src={product.url ? product.url : logo}
+          alt={product.name}
           quality={100}
           height={220}
           width={220}
@@ -38,7 +39,7 @@ export default function SingleProductItem({ product }: { product: Product }) {
             <Link href={`/productdetails/${product.slug}`}>
               <MdOutlineRemoveRedEye
                 size={20}
-                className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300 "
+                className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300"
               />
             </Link>
           </div>
@@ -58,14 +59,14 @@ export default function SingleProductItem({ product }: { product: Product }) {
 
       <div className="p-4">
         <div className="border-b-[1px] border-gray-300 py-2 pl-2">
-          <h5 className="text-xs text-gray-400 uppercase italic mb-2">
+          <h5 className="text-xs text-gray-400 uppercase italic">
             {product.category.name}
           </h5>
         </div>
 
         <Link href={`/productdetails/${product.slug}`}>
           <div className="font-semibold text-[15px] line-clamp-1 py-1 pl-2 hover:text-primary transition-colors duration-300">
-            <h1>{product.title}</h1>
+            <h1>{product.name}</h1>
           </div>
         </Link>
 

@@ -1,4 +1,4 @@
-import { Category, Hero, NewArrival, OurProduct } from "@/components/home";
+import { Category, Hero, NewArrival, DealOfTheDay } from "@/components/home";
 import { Ads } from "../common";
 
 export default function Home() {
@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <Hero />
       <Category />
-      <OurProduct />
+      <DealOfTheDay />
       <Ads />
       <NewArrival />
     </>
