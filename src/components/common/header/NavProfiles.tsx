@@ -13,7 +13,7 @@ export default function NavProfiles({ toogleNav }: { toogleNav: () => void }) {
   const openModal = () => {
     setModal(true);
   };
-  const closeModal = () => {
+  const closeCartModal = () => {
     setModal(false);
   };
 
@@ -63,7 +63,7 @@ export default function NavProfiles({ toogleNav }: { toogleNav: () => void }) {
       >
         <IoMenu size={25} />
       </button>
-      {modal && <CartModal closeModal={closeModal} />}
+      {modal && <CartModal closeCartModal={closeCartModal} />}
     </div>
   );
 }

@@ -1,23 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { SectionTitle } from "@/components/common";
 import { Product } from "@/types/product";
 import { SingleProductItem } from "@/components/product";
 import Link from "next/link";
+import { Category } from "@/types/category";
 import { getProductsByCategory } from "@/services/productServices";
 
-export default function RelatedProducts({ product }: { product: Product }) {
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+export default function CategoryProducts({ category }: { category: Category }) {
+  const [products, setProducts] = useState<Product[]>([]);
 
   const fetchRelatedProducts = async () => {
     try {
       const response = await getProductsByCategory({
         page: 1,
         size: 4,
-        slug: product.category.slug,
+        slug: category.slug,
       });
       const data = response.data;
-      setRelatedProducts(data);
+      setProducts(data);
     } catch (error) {
       console.log(error);
     }
@@ -26,24 +26,16 @@ export default function RelatedProducts({ product }: { product: Product }) {
   useEffect(() => {
     fetchRelatedProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
+  }, [category]);
 
   return (
     <section id="related-product" className="w-full py-20 bg-gray-50">
       <div className="container">
-        <SectionTitle
-          normaltitle="Related"
-          highlightedtitle="Products"
-          description="You may also like these products"
-          text="text-start"
-          items="items-start"
-        />
-
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {relatedProducts.length <= 1 ? (
+          {products.length === 0 ? (
             <div className="col-span-full text-center py-10 bg-gray-100 rounded-lg">
               <div className="text-lg font-semibold text-gray-700">
-                No Related Products Found
+                No Products Found!
               </div>
               <div className="text-sm text-gray-500 mb-6 italic">
                 Sorry, there are no products in this category that match your
@@ -57,12 +49,9 @@ export default function RelatedProducts({ product }: { product: Product }) {
               </Link>
             </div>
           ) : (
-            relatedProducts
-              .filter((item) => item.id !== product.id)
-              .slice(0, 4)
-              .map((item: Product) => (
-                <SingleProductItem key={item.id} item={item} />
-              ))
+            products.map((item: Product) => (
+              <SingleProductItem key={item.id} item={item} />
+            ))
           )}
         </div>
       </div>

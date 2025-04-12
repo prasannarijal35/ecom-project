@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode, useState } from "react";
-import { AdminFooter, AdminHeader, AdminLeftSide } from "../adminPannel";
+import { AdminFooter, AdminHeader, AdminLeftSide } from "../admin/adminPannel";
 import { RequireAuthProvider } from "@/providers";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

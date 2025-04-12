@@ -2,9 +2,10 @@
 import Image from "next/image";
 import { IoCartOutline, IoHeart } from "react-icons/io5";
 import { Product } from "@/types/product";
-import Link from "next/link";
 import logo from "@/assets/images/logos/logo2.png";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { createCart } from "@/services/cartService";
 
 export default function ProductDetails({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState<number>(1);
@@ -15,6 +16,17 @@ export default function ProductDetails({ product }: { product: Product }) {
   const decreaseQuantity = () => {
     if (quantity <= 1) return;
     setQuantity(quantity - 1);
+  };
+
+  const handleCartClick = async () => {
+    try {
+      await createCart({ productId: product.id, quantity });
+      toast.success("Product added to cart successfully!");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong! Try again."
+      );
+    }
   };
 
   const TotalPrice =
@@ -89,13 +101,14 @@ export default function ProductDetails({ product }: { product: Product }) {
               </div>
             </div>
 
-            <button className="w-full bg-primary rounded-lg text-center text-white py-2 mb-3">
-              <Link href={"/cart"}>
-                <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">
-                  <IoCartOutline size={20} />
-                  Add To Cart
-                </span>
-              </Link>
+            <button
+              className="w-full bg-primary rounded-lg text-center text-white py-2 mb-3"
+              onClick={handleCartClick}
+            >
+              <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">
+                <IoCartOutline size={20} />
+                Add To Cart
+              </span>
             </button>
             <button className="w-full bg-secondary rounded-lg text-center text-white py-2">
               <span className="flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300">

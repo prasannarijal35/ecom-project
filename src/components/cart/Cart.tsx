@@ -1,192 +1,210 @@
 "use client";
-import { ProductData } from "@/data/products";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
 import { TbTrash } from "react-icons/tb";
+import { getAllCarts } from "@/services/cartService";
+import toast from "react-hot-toast";
+import { placeOrder } from "@/services/orderService";
+import { useRouter } from "next/navigation";
+import { CartItem } from "@/types/cart";
 
 export default function Cart() {
-  const [cartItem, setCartItem] = useState(
-    ProductData.slice(0, 4).map((item) => ({ ...item, quantity: 1 }))
-  );
-
-  // Function to remove item from cart
-  const removeItem = (id: number) => {
-    setCartItem(cartItem.filter((item) => item.id !== id));
-  };
-
-  // Function to handle quantity increment
-  const increaseQuantity = (id: number) => {
-    setCartItem((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity < 10
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+  const calculateSubtotal = () =>
+    cartItems.reduce(
+      (total, item) =>
+        total +
+        (item.product.price -
+          (item.product.price * item.product.discountPercent) / 100) *
+          item.quantity,
+      0
     );
-  };
 
-  // Function to handle quantity decrement
-  const decreaseQuantity = (id: number) => {
-    setCartItem((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
+  const calculateShipping = () => (calculateSubtotal() > 5000 ? 0 : 0);
 
-  // Function to calculate the total price
-  const calculateMainTotal = () => {
-    return cartItem.reduce((total, item) => {
-      const itemPrice =
-        (item.price - (item.price * item.discountPercent) / 100) *
-        item.quantity;
-      return total + itemPrice;
-    }, 0);
-  };
+  const calculateTotal = () => calculateSubtotal() + calculateShipping();
 
-  // Shipping and Total Calculation
-  const shippingCost = 50;
-  const mainTotal = calculateMainTotal();
-  const totalWithShipping = mainTotal + shippingCost;
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await getAllCarts();
+
+        setCartItems(response.data.cartItems);
+      } catch (error: any) {
+        toast.error(
+          error?.response?.data?.message || "Something went wrong! Try again."
+        );
+      }
+    };
+
+    fetchCartItems();
+  }, []);
+
+  const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handlePlaceOrder = async () => {
+    try {
+      setLoading(true);
+      await placeOrder();
+      router.push("/orders");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong! Try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <section id="cart" className="w-full py-20">
-      <div className="container px-4 lg:px-12">
-        <h1 className="text-primary text-2xl mb-2">My Cart</h1>
-        {cartItem.length === 0 ? (
+    <section id="cart" className="w-full py-10 bg-gray-50">
+      <div className="container mx-auto px-4 md:px-8">
+        {cartItems.length === 0 ? (
           <div className="text-center py-10 w-full bg-red-700/20 text-red-700 rounded-lg justify-center items-center flex flex-col">
             <p className="text-[16px] italic">Your cart is empty!</p>
             <Link
               href="/products"
-              className="mt-5 inline-block bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/80"
+              className="mt-5 inline-block bg-primary text-white pr-6 py-3 rounded-md hover:bg-primary/80"
             >
               Continue Shopping
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-10">
-            <div className="space-y-6">
-              {cartItem.map((product) => {
-                const productTotal =
-                  (product.price -
-                    (product.price * product.discountPercent) / 100) *
-                  product.quantity;
-                return (
-                  <div
-                    key={product.id}
-                    className="flex flex-wrap justify-between items-center p-4 bg-gray-50 rounded-md shadow-custom"
-                  >
-                    <div className="w-full flex items-center gap-2 md:w-auto ">
-                      <div className="p-2 bg-gray-50 rounded-md">
-                        <Image
-                          src={product.url}
-                          alt={product.name}
-                          height={100}
-                          width={100}
-                          className="h-20 w-20 object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-[18px]">
-                          {product.name}
-                        </h4>
-                        <p className="italic text-[14px] text-sm text-gray-600">
-                          {product.category.name}
-                        </p>
-                        <p className="text-primary text-[14px] py-2">
-                          Rs.
-                          {(
-                            product.price -
-                            (product.price * product.discountPercent) / 100
-                          ).toFixed(2)}
-                          {product.discountPercent > 0 && (
-                            <span className="text-sm text-gray-500 line-through ml-2">
-                              Rs.{product.price}
-                            </span>
-                          )}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Total: Rs. {productTotal.toFixed(2)}
-                        </p>
-                      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 gap-y-8 w-full">
+            {/* Cart Items */}
+            <div className="col-span-2 space-y-6">
+              {cartItems.map((cartItem) => (
+                <div
+                  key={cartItem.id}
+                  className="flex flex-wrap items-center justify-between bg-white shadow-custom p-4 rounded-lg"
+                >
+                  <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="bg-gray-100 p-2 rounded-md">
+                      <Image
+                        src={
+                          cartItem.product.url ??
+                          "/images/placeholder-image.png"
+                        }
+                        width={100}
+                        height={100}
+                        alt={cartItem.product.name}
+                        className="w-20 h-20 object-cover rounded-lg"
+                      />
                     </div>
-                    <div className="flex items-center justify-between w-full md:w-auto gap-4 mt-4 md:mt-0">
-                      <div className="flex items-center border rounded-md">
-                        <button
-                          className={`h-[40px] w-[40px] flex justify-center items-center bg-secondary hover:bg-gray-300 rounded-l-md ${
-                            product.quantity === 1 && "cursor-not-allowed"
-                          }`}
-                          onClick={() => decreaseQuantity(product.id)}
-                          disabled={product.quantity === 1}
-                        >
-                          -
-                        </button>
-                        <span className="h-[40px] w-[60px] flex justify-center items-center">
-                          {product.quantity}
-                        </span>
-                        <button
-                          className={`h-[40px] w-[40px] flex justify-center items-center bg-secondary hover:bg-gray-300 rounded-r-md ${
-                            product.quantity === 10 && "cursor-not-allowed"
-                          }`}
-                          onClick={() => increaseQuantity(product.id)}
-                          disabled={product.quantity === 10}
-                        >
-                          +
-                        </button>
-                      </div>
+                    <div>
+                      <h4 className="text-lg font-medium">
+                        {cartItem.product.name}
+                      </h4>
+                      <p className="text-sm text-gray-500 italic">
+                        {cartItem.product.category.name}
+                      </p>
+                      <p className="text-primary font-semibold">
+                        Rs.
+                        {(
+                          cartItem.product.price -
+                          (cartItem.product.price *
+                            cartItem.product.discountPercent) /
+                            100
+                        ).toFixed(2)}
+                        {cartItem.product.discountPercent > 0 && (
+                          <span className="text-sm text-gray-500 line-through ml-2">
+                            Rs.{cartItem.product.price}
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        Item Total: Rs.
+                        {(
+                          (cartItem.product.price -
+                            (cartItem.product.price *
+                              cartItem.product.discountPercent) /
+                              100) *
+                          cartItem.quantity
+                        ).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between w-full md:w-auto gap-4 mt-4 md:mt-0">
+                    <div className="flex items-center border rounded-md">
                       <button
-                        onClick={() => removeItem(product.id)}
-                        className=" text-red-700 hover:text-white rounded-md hover:bg-red-700 h-[40px] w-[40px] flex justify-center items-center transition"
+                        // onClick={() => updateQuantity(cartItem.id, false)}
+                        onClick={() => {}}
+                        className={`h-[40px] w-[40px] flex justify-center items-center bg-gray-200 hover:bg-gray-300 rounded-l-md ${
+                          cartItem.quantity === 1 && "cursor-not-allowed"
+                        }`}
+                        disabled={cartItem.quantity === 1}
                       >
-                        <TbTrash className="text-xl" />
+                        -
+                      </button>
+                      <span className="h-[40px] w-[60px] flex justify-center items-center">
+                        {cartItem.quantity}
+                      </span>
+                      <button
+                        // onClick={() => updateQuantity(cartItem.id, true)}
+                        onClick={() => {}}
+                        className={`h-[40px] w-[40px] flex justify-center items-center bg-gray-200 hover:bg-gray-300 rounded-r-md ${
+                          cartItem.quantity === 10 && "cursor-not-allowed"
+                        }`}
+                        disabled={cartItem.quantity === 10}
+                      >
+                        +
                       </button>
                     </div>
+                    <button
+                      // onClick={() => removeItem(cartItem.id)}
+                      onClick={() => {}}
+                      className="bg-red-700/30 text-red-700 hover:text-white rounded-md hover:bg-red-700 h-[40px] w-[40px] flex justify-center items-center transition"
+                    >
+                      <TbTrash className="text-xl" />
+                    </button>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
-            {/* Product Summary & Shipping */}
-            <div className="space-y-8">
-              {/* Shipping Part */}
-              <div className="border-[1px] border-gray-300 p-6 rounded-lg shadow-md">
-                <h1 className="text-xl font-bold text-gray-800">Shipping</h1>
-                <div className="border-t-[1px] border-gray-500 mt-4">
-                  {/* Shipping Cost */}
-                  <div className="flex justify-between py-2 text-gray-700">
-                    <span>Shipping Cost</span>
-                    <span>Rs. {shippingCost}</span>
-                  </div>
-                  <div className="flex justify-between py-2 text-gray-700">
-                    <span>Total Shipping Cost</span>
-                    <span>Rs. {shippingCost}</span>
-                  </div>
+            {/* Summary */}
+            <div>
+              <div className="bg-white shadow-custom rounded-lg p-6 mb-6">
+                <h3 className="text-lg font-bold mb-4">Shipping Details</h3>
+                <div className="flex justify-between text-gray-700">
+                  <span>Shipping Cost</span>
+                  <span>Rs. {calculateShipping().toFixed(2)}</span>
                 </div>
               </div>
-
-              {/* Main Total Part */}
-              <div className="border-[1px] border-gray-300 p-6 rounded-lg shadow-md">
-                <h1 className="text-xl font-bold text-gray-800">
-                  Cost Summary
-                </h1>
-                <div className="border-t-[1px] border-gray-500 mt-4">
-                  {/* Main Total */}
-                  <div className="flex justify-between py-2 text-gray-700">
-                    <span>Main Total</span>
-                    <span>Rs. {mainTotal.toFixed(2)}</span>
+              <div className="bg-white shadow-custom rounded-lg p-6">
+                <h3 className="text-lg font-bold mb-4">Cart Summary</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-gray-700">
+                    <span>Subtotal</span>
+                    <span>Rs. {calculateSubtotal().toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between py-2 text-gray-700">
-                    <span>Total with Shipping</span>
-                    <span>Rs. {totalWithShipping.toFixed(2)}</span>
+                  <div className="flex justify-between text-gray-700">
+                    <span>Shipping</span>
+                    <span>Rs. {calculateShipping().toFixed(2)}</span>
+                  </div>
+                  <hr className="my-3" />
+                  <div className="flex justify-between font-bold text-primary">
+                    <span>Total</span>
+                    <span>Rs. {calculateTotal().toFixed(2)}</span>
                   </div>
                 </div>
-                <div className="w-full flex justify-center items-center mt-4">
-                  <button className="px-6 py-2 bg-primary text-white rounded-md hover:bg-secondary transition-colors duration-200">
-                    Checkout
+                <div className="mt-5 space-y-3">
+                  <button
+                    onClick={loading ? () => {} : handlePlaceOrder}
+                    className="block w-full bg-primary text-white text-center py-3 rounded-md hover:bg-primary/80"
+                  >
+                    {loading ? "Placing Order..." : "Place Order"}
                   </button>
+                  <Link
+                    href="/products"
+                    className="block w-full text-center border-2 border-gray-300 text-gray-700 py-3 rounded-md hover:border-primary hover:text-primary"
+                  >
+                    Continue Shopping
+                  </Link>
                 </div>
               </div>
             </div>

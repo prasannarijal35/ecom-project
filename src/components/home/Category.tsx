@@ -4,7 +4,7 @@ import { Autoplay } from "swiper/modules";
 import SingleCategoryItem from "./SingleCategoryItem";
 import { useEffect, useState } from "react";
 import { Category as Cat } from "@/types/category";
-import { getAllCategories } from "@/services/admin/addCategoryServices";
+import { getAllCategories } from "@/services/categoryService";
 
 export default function Category() {
   const gradientBg: string[] = [
@@ -18,7 +18,7 @@ export default function Category() {
     "from-[#B20000]",
   ];
 
-  const [items, setItems] = useState<Cat[]>([]);
+  const [categories, setCategories] = useState<Cat[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -26,7 +26,7 @@ export default function Category() {
     const getCategories = async () => {
       try {
         const itemData = await getAllCategories({});
-        setItems(itemData.data);
+        setCategories(itemData.data);
       } catch (error: any) {
         setErrorMessage(
           error.response?.data?.message || "Something went wrong"
@@ -63,9 +63,9 @@ export default function Category() {
           freeMode={true}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
         >
-          {items.map((category, index) => (
+          {categories.map((category, index) => (
             <SwiperSlide
-              key={category.id}
+              key={index}
               style={{ width: "auto" }}
               className={`my-3 min-w-[200px] flex flex-shrink-0 items-center justify-center p-5 rounded-xl bg-gradient-to-b ${
                 gradientBg[index % gradientBg.length]

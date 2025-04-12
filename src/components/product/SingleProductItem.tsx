@@ -6,19 +6,31 @@ import { Product } from "@/types/product";
 import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import toast from "react-hot-toast";
+import { createCart } from "@/services/cartService";
 
-export default function SingleProductItem({ product }: { product: Product }) {
-  const discountedPrice = Math.round(
-    product.price - (product.price * product.discountPercent) / 100
-  );
-  const originalPrice = Math.round(product.price);
+interface Props {
+  item: Product;
+}
+
+export default function SingleProductItem({ item }: Props) {
+  const handleCartClick = async () => {
+    try {
+      await createCart({ productId: item.id, quantity: 1 });
+      toast.success("Product added to cart successfully!");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong! Try again."
+      );
+    }
+  };
 
   return (
     <div className="w-full bg-white rounded-md shadow-custom mb-6 overflow-hidden group">
       <div className="relative w-full flex justify-center items-center p-4">
         <Image
-          src={product.url ? product.url : logo}
-          alt={product.name}
+          src={item.url ? item.url : logo}
+          alt={item.name}
           quality={100}
           height={220}
           width={220}
@@ -30,13 +42,13 @@ export default function SingleProductItem({ product }: { product: Product }) {
           transition-opacity duration-300"
         >
           <div className="flex gap-4 pb-3">
-            <Link href="#">
+            <button onClick={handleCartClick}>
               <IoCartOutline
                 size={20}
                 className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300"
               />
-            </Link>
-            <Link href={`/productdetails/${product.slug}`}>
+            </button>
+            <Link href={`/products/${item.slug}`}>
               <MdOutlineRemoveRedEye
                 size={20}
                 className="bg-primary/60 rounded-md hover:bg-primary hover:scale-105 transition-all duration-300"
@@ -49,9 +61,9 @@ export default function SingleProductItem({ product }: { product: Product }) {
           <button aria-label="Add to Favorites">
             <CiHeart className="text-[20px] text-primary bg-transparent rounded-full hover:text-white hover:bg-primary" />
           </button>
-          {product.discountPercent > 0 && (
+          {item.discountPercent > 0 && (
             <div className="text-xs text-white bg-red-500 rounded-md p-1">
-              {product.discountPercent}% Off
+              {item.discountPercent}% Off
             </div>
           )}
         </div>
@@ -60,29 +72,31 @@ export default function SingleProductItem({ product }: { product: Product }) {
       <div className="p-4">
         <div className="border-b-[1px] border-gray-300 py-2 pl-2">
           <h5 className="text-xs text-gray-400 uppercase italic">
-            {product.category.name}
+            {item.category.name}
           </h5>
         </div>
 
-        <Link href={`/productdetails/${product.slug}`}>
+        <Link href={`/products/${item.slug}`}>
           <div className="font-semibold text-[15px] line-clamp-1 py-1 pl-2 hover:text-primary transition-colors duration-300">
-            <h1>{product.name}</h1>
+            <h1>{item.name}</h1>
           </div>
         </Link>
 
         <div className="text-[10px] text-gray-500 mb-2 px-2">
-          <p className="line-clamp-2">{product.description}</p>
+          <p className="line-clamp-2">{item.description}</p>
         </div>
 
-        <div className="mt-2 flex items-center justify-between p-2">
+        <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center">
-            <h5 className="text-md font-semibold text-primary">
-              Rs. {discountedPrice}
+            <h5 className="text-lg font-bold text-primary">
+              Rs.
+              {(item.price - (item.price * item.discountPercent) / 100).toFixed(
+                2
+              )}
             </h5>
-
-            {product.discountPercent > 0 && (
+            {item.discountPercent > 0 && (
               <span className="text-sm text-gray-500 line-through ml-2">
-                Rs. {originalPrice}
+                Rs.{item.price.toFixed(2)}
               </span>
             )}
           </div>

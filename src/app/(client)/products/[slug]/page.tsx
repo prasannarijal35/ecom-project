@@ -32,7 +32,7 @@ export default async function page({
         subTitleLink="/products"
       />
       <ProductDetails product={productResponse.data} />
-      <SimilarProducts />
+      <SimilarProducts product={productResponse.data} />
     </>
   );
 }

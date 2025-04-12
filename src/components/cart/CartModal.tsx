@@ -1,107 +1,185 @@
 "use client";
-import Image from "next/image";
-import React from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { IoMdClose } from "react-icons/io";
-import { useRouter } from "next/navigation";
-import { ProductData } from "@/data/products";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { CgClose } from "react-icons/cg";
+import { TbTrash } from "react-icons/tb";
+import { useRouter } from "next/navigation";
+import { getAllCarts } from "@/services/cartService";
+import { CartItem } from "@/types/cart";
+import toast from "react-hot-toast";
+import { placeOrder } from "@/services/orderService";
 
-export default function CartModal({ closeModal }: { closeModal: () => void }) {
+interface Props {
+  closeCartModal: () => void;
+}
+
+export default function CartModal({ closeCartModal }: Props) {
   const router = useRouter();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingCart, setLoadingCart] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        setLoadingCart(true);
+        const response = await getAllCarts();
+        setCartItems(response.data.cartItems);
+      } catch (error: any) {
+        toast.error(
+          error?.response?.data?.message || "Failed to load cart items!"
+        );
+      } finally {
+        setLoadingCart(false);
+      }
+    };
+    fetchCartItems();
+  }, []);
+
+  const calculateSubtotal = () =>
+    cartItems.reduce(
+      (total, item) =>
+        total +
+        (item.product.price -
+          (item.product.price * item.product.discountPercent) / 100) *
+          item.quantity,
+      0
+    );
+
+  const handlePlaceOrder = async () => {
+    try {
+      setLoading(true);
+      await placeOrder();
+      closeCartModal();
+      toast.success("Order placed successfully!");
+      router.push("/orders");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong! Try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-start p-12 overflow-auto  z-[1]">
+    <div className="fixed top-0 left-0 z-50 w-screen h-screen flex justify-center items-start overflow-auto p-10">
+      {/* Overlay */}
       <div
-        className="fixed top-0 w-screen h-screen left-0 bg-black bg-opacity-50 backdrop-blur-sm z-[0]"
-        onClick={closeModal}
+        className="fixed top-0 left-0 z-40 w-screen h-screen bg-black bg-opacity-50"
+        onClick={closeCartModal}
       ></div>
-      <div className="relative bg-white shadow-custom w-full max-w-[550px] z-[1]">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h3 className="text-md font-medium text-gray-700">Shopping Cart</h3>
-          <button
-            onClick={closeModal}
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <IoMdClose size={32} />
+
+      {/* Modal Content */}
+      <div
+        className="z-50 relative w-full max-w-[550px] bg-white rounded-md shadow-lg"
+        role="dialog"
+        aria-modal="true"
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center p-5 border-b border-gray-200">
+          <h3 className="text-lg font-bold text-secondary">Shopping Cart</h3>
+          <button onClick={closeCartModal}>
+            <CgClose className="text-[26px] text-gray-800 font-bold" />
           </button>
         </div>
 
-        <div className="px-5 py-3  border-b-[1px] border-gray-300 ">
-          {ProductData.slice(0, 4).map((product) => (
-            <div
-              className="flex items-center justify-between my-4 bg-gray-50 "
-              key={product.id}
-            >
-              <div className="flex justify-start items-start gap-2">
-                <div className="p-4 rounded-md bg-gray-100">
-                  <Image
-                    src={product.url}
-                    alt={product.name}
-                    width={800}
-                    height={800}
-                    className="object-cover w-20 h-20"
-                  />
-                </div>
+        {/* Cart Items */}
+        <div className="px-5 py-3 max-h-[400px] overflow-y-auto custom-scrollbar">
+          {loadingCart ? (
+            <div className="text-center py-10 text-gray-500">Loading...</div>
+          ) : cartItems.length === 0 ? (
+            <div className="text-center text-gray-500 italic py-10">
+              Your cart is empty.
+            </div>
+          ) : (
+            cartItems.map((item) => (
+              <div
+                className="flex justify-between items-center my-4"
+                key={item.id}
+              >
+                <div className="flex gap-3 items-start">
+                  {/* Product Image */}
+                  <div className="p-2 bg-gray-100 rounded-md">
+                    <Image
+                      src={item.product.url ?? "/images/placeholder-image.png"}
+                      width={800}
+                      height={800}
+                      alt={item.product.name}
+                      className="object-cover w-20 h-20 rounded-md"
+                    />
+                  </div>
 
-                <div className="flex flex-col">
-                  <h3 className="text-[14px] font-medium text-gray-800 mt-2">
-                    {product.name}
-                  </h3>
-                  <p className="text-[14px] text-gray-600 italic mb-1">
-                    {product.category.name}
-                  </p>
-                  <div className="text-primary font-sm flex items-center gap-2 mt-2">
-                    <h5 className="text-[12px] font-medium text-primary">
-                      Rs.
-                      {product.price -
-                        (product.price * product.discountPercent) / 100}
-                    </h5>
-                    {product.discountPercent > 0 && (
-                      <span className="text-[12px] text-gray-500 line-through ml-2">
-                        Rs.{product.price}
-                      </span>
-                    )}
+                  {/* Product Info */}
+                  <div>
+                    <h4 className="text-[16px] font-medium">
+                      {item.product.name}
+                    </h4>
+                    <p className="text-gray-500 text-[14px] italic">
+                      {item.product.category?.name ?? "Uncategorized"}
+                    </p>
+                    <div className="text-primary font-semibold flex gap-2">
+                      <h5 className="text-[16px]">
+                        Rs.
+                        {(
+                          item.product.price -
+                          (item.product.price * item.product.discountPercent) /
+                            100
+                        ).toFixed(2)}
+                      </h5>
+                      {item.product.discountPercent > 0 && (
+                        <span className="text-[14px] text-gray-500 line-through ml-2">
+                          Rs.{item.product.price}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[14px] text-gray-600">
+                      Qty: {item.quantity}
+                    </p>
                   </div>
                 </div>
-              </div>
-              <div>
-                <button className="text-gray-600 hover:text-red-600 transition-colors">
-                  <MdDeleteOutline size={32} />
+
+                {/* Delete Button */}
+                <button className="bg-red-500/20 p-2 rounded-md hover:bg-red-500 transition-colors duration-300 group">
+                  <TbTrash className="text-[20px] text-red-500 group-hover:text-white" />
                 </button>
               </div>
+            ))
+          )}
+        </div>
+
+        {cartItems.length > 0 && (
+          <>
+            <div className="flex justify-between items-center mt-5 border-t border-b border-gray-200 py-3 px-5">
+              <h4 className="text-lg font-medium">Total Amount:</h4>
+              <h4 className="text-lg font-bold text-primary">
+                Rs. {calculateSubtotal().toFixed(2)}
+              </h4>
             </div>
-          ))}
-        </div>
 
-        <div className="p-6 flex justify-between items-center border-b border-gray-200 py-4 ">
-          <h3 className="text-[16px] font-medium text-gray-800">Total:</h3>
-          <h3 className="text-[16px] font-medium text-gray-900">Rs. 300.00</h3>
-        </div>
-
-        <div className="p-6 flex text-center justify-between items-center gap-4">
-          <Link
-            href={"/cart"}
-            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-              e.preventDefault();
-              closeModal();
-              router.push("/cart");
-            }}
-            className=" py-3 px-4 w-[50%] bg-primary text-white text-[16px]  hover:bg-secondary transition-colors"
-          >
-            Go To Cart
-          </Link>
-          <Link
-            href={"/checkout"}
-            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-              e.preventDefault();
-              closeModal();
-              router.push("/checkout");
-            }}
-            className=" w-[50%] py-3 px-4 bg-white text-primary border-[1px] border-primary text-[16px]  hover:bg-primary hover:text-white transition-colors"
-          >
-            Proceed to Checkout
-          </Link>
-        </div>
+            {/* Actions */}
+            <div className="flex justify-center flex-col mt-5 gap-3 mb-5 px-5">
+              <button
+                onClick={loading ? () => {} : handlePlaceOrder}
+                className="bg-primary w-full text-white p-3 text-center rounded-md hover:bg-primary/80 transition-colors duration-300"
+              >
+                {loading ? "Placing Order..." : "Place Order"}
+              </button>
+              <Link
+                href={"/cart"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  closeCartModal();
+                  router.push("/cart");
+                }}
+                className="border-secondary border-2 text-secondary w-full text-center p-3 rounded-md hover:bg-secondary hover:text-white transition-colors duration-300"
+              >
+                Go to Cart
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

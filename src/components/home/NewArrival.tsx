@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SectionTitle } from "@/components/common";
-
 import { SingleProductItem } from "@/components/product";
 import { Product } from "@/types/product";
-import { getAllProducts } from "@/services/admin/addProductServices";
+import { getAllProducts } from "@/services/productServices";
 
 export default function NewArrivals() {
   const [items, setItems] = useState<Product[]>([]);
@@ -51,7 +50,7 @@ export default function NewArrivals() {
 
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {items.map((item: Product, index: number) => (
-            <SingleProductItem key={index} product={item} />
+            <SingleProductItem key={index} item={item} />
           ))}
         </div>
       </div>
